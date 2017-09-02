@@ -1,2 +1,21 @@
 @import './../config';
 @import './../mixins';
+
+
+.main {
+    width: 100%;
+    .header {
+        width: 100%;
+        background: $white-color;
+        height: $header-height;
+        .logo {
+            margin-top: 20px;
+        }
+    }
+    .content {
+        h1 {
+            text-align: center;
+            padding: 200px 0;
+        }
+    }
+}
