@@ -1,0 +1,11 @@
+@import 'config';
+@import 'mixins';
+body,
+html {
+    margin: 0px;
+    padding: 0px;
+}
+
+* {
+    font-family: OpenSansRegular;
+}

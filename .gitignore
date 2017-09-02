@@ -1,0 +1,5 @@
+$ cat .gitignore
+    
+.tmp
+bower_components
+node_modules
