@@ -1,5 +1,5 @@
 
-export class MainController {
+export class HomeController {
 	constructor($scope, $rootScope, $state, $stateParams, $location, $translate, MainService)  {
         'ngInject';
 		let vm = this;

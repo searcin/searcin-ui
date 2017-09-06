@@ -1,4 +1,4 @@
-export class MainService {
+export class HomeService {
     constructor(DataServices, $q, $rootScope, $filter) {
         'ngInject';
         let vm = this;

@@ -13,8 +13,9 @@ import { AppConstants } from './app.constants';
 angular.module("searcin", ["ui.router",
 	"ui.bootstrap",
 	"pascalprecht.translate",
-	"searcin.data-service",
-	"searcin.main",
+	"searcin.data-service",	
+	"searcin.home",
+	"searcin.admin",
 	"searcin.components",
 	"searcin.common"
 ])

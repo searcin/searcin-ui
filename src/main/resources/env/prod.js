@@ -1,5 +1,4 @@
 window.env = {
-    "BASE_URL": "https://www.rhombusanalytics.com",
-    "WEB_SERVICE": "/tireadvisor-web/api/v1/",
-    "INGESTION_SERVICE": "/ingestion-service/api/"
+    "BASE_URL": "http://localhost:8080",
+    "WEB_SERVICE": "/api/v1/"
 };
