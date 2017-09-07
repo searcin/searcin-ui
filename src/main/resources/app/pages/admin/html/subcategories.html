@@ -1,0 +1,15 @@
+<div class="sub-categories" ng-init="admin.getCategories()">
+    <div class="row">
+        <div class="col-md-4">
+            <label>Select Category:</label>
+            <select name="categories" ng-model="admin.data.categoryId" class="form-control">
+                <option ng-repeat="option in admin.data.categories" value="{{option.id}}">{{option.name}}</option>
+            </select>
+            <form class="form mt-20" name="subcategories">
+                <label>Sub Category Name:</label>
+                <input type="text" class="form-control" ng-model="admin.data.subCategoryName" /><br>
+                <button class="btn btn-primary" type="submit" ng-click="admin.addSubCategory()" ng-disabled="!admin.data.subCategoryName">Add</button>
+            </form>
+        </div>
+    </div>
+</div>

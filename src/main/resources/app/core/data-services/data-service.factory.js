@@ -14,7 +14,10 @@ export function DataServices($log, $q, $http, $rootScope, ApiConfig, BrowserConf
 
     let adminRequest = new AdminRequest();
     return {
-        saveCategory: adminRequest.saveCategory(DI)
+        saveCategory: adminRequest.saveCategory(DI),
+        updateCategory: adminRequest.updateCategory(DI),
+        getCategories: adminRequest.getCategories(DI),
+        deleteCategory: adminRequest.deleteCategory(DI)
     };
 
 }
