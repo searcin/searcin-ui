@@ -22,4 +22,100 @@ export class AdminRequest {
             return DI.$http(DI.ApiConfig.DELETE_CATEGORY.setUrl(payload));
         };
     }
+    getSubCategories(DI) {
+        return function(id) {
+            return DI.$http(DI.ApiConfig.GET_SUB_CATEGORIES.setUrl(id));
+        };
+    }
+
+    saveSubCategory(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.SAVE_SUB_CATEGORY.setUrl(payload));
+        };
+    }
+
+    updateSubCategory(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.EDIT_SUB_CATEGORY.setUrl(payload));
+        };
+    }
+
+    deleteSubCategory(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.DELETE_SUB_CATEGORY.setUrl(payload));
+        };
+    }
+
+    getServices(DI) {
+        return function() {
+            return DI.$http(DI.ApiConfig.GET_SERVICES.setUrl());
+        };
+    }
+
+    addService(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.ADD_SERVICE.setUrl(payload));
+        };
+    }
+
+    updateService(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.UPDATE_SERVICE.setUrl(payload));
+        };
+    }
+
+    deleteService(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.DELETE_SERVICE.setUrl(payload));
+        };
+    }
+
+    getAreas(DI) {
+        return function() {
+            return DI.$http(DI.ApiConfig.GET_AREAS.setUrl());
+        };
+    }
+
+    addArea(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.ADD_AREA.setUrl(payload));
+        };
+    }
+
+    updateArea(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.UPDATE_AREA.setUrl(payload));
+        };
+    }
+
+    deleteArea(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.DELETE_AREA.setUrl(payload));
+        };
+    }
+
+    
+    getVendors(DI) {
+        return function() {
+            return DI.$http(DI.ApiConfig.GET_VENDORS.setUrl());
+        };
+    }
+
+    addVendor(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.ADD_VENDOR.setUrl(payload));
+        };
+    }
+
+    updateVendor(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.UPDATE_VENDOR.setUrl(payload));
+        };
+    }
+
+    deleteVendor(DI) {
+        return function(payload) {
+            return DI.$http(DI.ApiConfig.DELETE_VENDOR.setUrl(payload));
+        };
+    }
 }

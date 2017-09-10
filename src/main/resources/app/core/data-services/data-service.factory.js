@@ -17,7 +17,23 @@ export function DataServices($log, $q, $http, $rootScope, ApiConfig, BrowserConf
         saveCategory: adminRequest.saveCategory(DI),
         updateCategory: adminRequest.updateCategory(DI),
         getCategories: adminRequest.getCategories(DI),
-        deleteCategory: adminRequest.deleteCategory(DI)
+        deleteCategory: adminRequest.deleteCategory(DI),
+        getSubCategories: adminRequest.getSubCategories(DI),
+        saveSubCategory: adminRequest.saveSubCategory(DI),
+        updateSubCategory: adminRequest.updateSubCategory(DI),
+        deleteSubCategory: adminRequest.deleteSubCategory(DI),
+        getServices: adminRequest.getServices(DI),
+        addService: adminRequest.addService(DI),
+        updateService: adminRequest.updateService(DI),
+        deleteService: adminRequest.deleteService(DI),
+        getAreas: adminRequest.getAreas(DI),
+        addArea: adminRequest.addArea(DI),
+        updateArea: adminRequest.updateArea(DI),
+        deleteArea: adminRequest.deleteArea(DI),
+        getVendors: adminRequest.getVendors(DI),
+        addVendor: adminRequest.addVendor(DI),
+        updateVendor: adminRequest.updateVendor(DI),
+        deleteVendor: adminRequest.deleteVendor(DI)
     };
 
 }

@@ -1,0 +1,56 @@
+<div class="categories" ng-init="admin.getServices()">
+        <div class="row">
+            <div class="col-sm-12">
+                <uib-tabset active="">
+                    <uib-tab index="0" heading="Available" ng-click="admin.getServices()">
+                        <div class="admin-container">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in admin.data.services">
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.description}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </uib-tab>
+                    <uib-tab index="1" heading="Add" ng-click="admin.getServices()">
+                        <div class="admin-container">
+                            <form class="form" name="categories">
+                                <label>Service Name:</label>
+                                <input type="text" class="form-control" ng-model="admin.data.name" />
+                                <hr>
+                                <label>Service Description:</label>
+                                <textarea class="form-control" ng-model="admin.data.description"></textarea><br>
+                                <button class="btn btn-primary" type="submit" ng-click="admin.addService()" ng-disabled="!admin.data.name&&!admin.data.description">Add</button>
+                            </form>
+                        </div>
+                    </uib-tab>
+                    <uib-tab index="2" heading="Edit/Delete" ng-click="admin.getServices()">
+                        <div class="admin-container">
+                            <form class="form" name="services">
+                                <label>Select Service:</label>
+                                <select class="form-control" ng-options="item as item.name for item in admin.data.services" ng-model="admin.data.service">
+                                    </select>
+                                    <hr>
+                                <input type="text" class="form-control" ng-model="admin.data.service.name"/><br>
+                                <textarea class="form-control" ng-model="admin.data.service.description"></textarea>
+                                <hr>
+                                <button class="btn btn-primary" type="submit" ng-click="admin.updateService()" ng-disabled="!admin.data.service">Update</button>
+                                <button class="btn btn-primary" type="submit" ng-click="admin.deleteService()" ng-disabled="!admin.data.service">Delete</button>
+                            </form>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+    
+        </div>
+    </div>
