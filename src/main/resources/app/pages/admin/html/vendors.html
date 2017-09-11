@@ -61,17 +61,47 @@
                         </form>
                     </div>
                 </uib-tab>
-                <uib-tab index="2" heading="Edit/Delete">
+                <uib-tab index="2" heading="Edit/Delete" ng-click="admin.data = {};admin.getCategories();admin.getAreas();admin.getServices();admin.getVendorsList();">
                     <div class="admin-container">
                         <form class="form" name="areas">
-                            <label>Select Area:</label>
-                            <select class="form-control" ng-options="item as item.name for item in admin.data.areas" ng-model="admin.data.area">
+                            <label>Select Vendor:</label>
+                            <select class="form-control" ng-options="item as item.name for item in admin.data.vendors" ng-model="admin.data.selected" ng-change="admin.getByVendorId()">
                                 </select>
                                 <hr>
-                            <input type="text" class="form-control" ng-model="admin.data.area.name"/><br>
-                            <button class="btn btn-primary" type="submit" ng-click="admin.updateArea()" ng-disabled="!admin.data.area">Update</button>
-                            <button class="btn btn-primary" type="submit" ng-click="admin.deleteArea()" ng-disabled="!admin.data.area">Delete</button>
                         </form>
+                        <form class="form" name="categories" ng-if="admin.data.vendor">
+                                <table class="table">
+                                    <tbody>
+                                        <tr><td>Name:</td><td><input type="text" class="form-control" ng-model="admin.data.vendor.name" /></td></tr>
+                                        <tr><td>Description:</td><td><textarea class="form-control" ng-model="admin.data.vendor.description"></textarea></td></tr>
+                                        <tr><td>Category:</td><td><select class="form-control" ng-options="item.id as item.name for item in admin.data.categories" ng-model="admin.data.vendor.category_id" ng-change="admin.data.categoryId=admin.data.vendor.category_id;admin.getSubCategories()"></td></tr>
+                                        <tr><td>Sub Category:</td><td><select class="form-control" ng-options="item.id as item.name for item in admin.data.subcategories" ng-model="admin.data.vendor.sub_category_id"></td></tr>
+                                        <tr><td>Area :</td><td><select class="form-control" ng-options="item.id as item.name for item in admin.data.areas" ng-model="admin.data.address.area_id"></td></tr>
+                                            <tr><td>Door no:</td><td><input type="text" class="form-control" ng-model="admin.data.address.doorno" /></td></tr>
+                                            <tr><td>Building :</td><td><input type="text" class="form-control" ng-model="admin.data.address.building" /></td></tr>
+                                            <tr><td>Street:</td><td><input type="text" class="form-control" ng-model="admin.data.address.street" /></td></tr>
+                                            <tr><td>Pincode:</td><td><input type="text" class="form-control" ng-model="admin.data.address.pincode" /></td></tr>
+                                            <tr><td>Latitude:</td><td><input type="text" class="form-control" ng-model="admin.data.address.lat" /></td></tr>
+                                            <tr><td>Longitude:</td><td><input type="text" class="form-control" ng-model="admin.data.address.lng" /></td></tr>
+                                            <tr><td>Contact Name:</td><td><input type="text" class="form-control" ng-model="admin.data.contact.name" /></td></tr>
+                                            <tr><td>Phone:</td><td><input type="text" class="form-control" ng-model="admin.data.contact.phone" /></td></tr>
+                                            <tr><td>Mobile:</td><td><input type="text" class="form-control" ng-model="admin.data.contact.mobile" /></td></tr>
+                                            <tr><td>Email:</td><td><input type="text" class="form-control" ng-model="admin.data.contact.email" /></td></tr>
+                                            <tr><td>Website:</td><td><input type="text" class="form-control" ng-model="admin.data.contact.website" /></td></tr>
+                                            <tr><td>Facebook:</td><td><input type="text" class="form-control" ng-model="admin.data.contact.facebook" /></td></tr>
+                                            <tr><td>Twitter:</td><td><input type="text" class="form-control" ng-model="admin.data.contact.twitter" /></td></tr>
+                                            <tr><td>Services:</td><td>
+                                                <div style="max-height:100px;overflow:auto;">
+                                                <div ng-repeat="item in admin.data.services"><label><input type="checkbox" ng-model="item.selected">&nbsp;{{item.name}}</label><br></div>  
+                                                </div>
+                                            </td></tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                                
+                            <button class="btn btn-primary" type="submit" ng-click="admin.updateVendor()" ng-disabled="!admin.data.vendor">Update</button>
+                            <button class="btn btn-primary" type="submit" ng-click="admin.deleteVendor()" ng-disabled="!admin.data.vendor">Delete</button>
+                            </form>
                     </div>
                 </uib-tab>
             </uib-tabset>

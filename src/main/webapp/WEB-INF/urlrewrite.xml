@@ -1,42 +1,30 @@
 <urlrewrite default-match-type="wildcard">
 	<rule>
-		<from>/login</from>
+		<from>/</from>
 		<to>/index.html</to>
 	</rule>
 	<rule>
-		<from>/app/home</from>
-		<to>/index.html</to>
-	</rule>	
-	<rule>
-		<from>/app/inspections</from>
+		<from>/admin</from>
 		<to>/index.html</to>
 	</rule>
 	<rule>
-		<from>/app/pullpoints</from>
+		<from>/admin/categories</from>
 		<to>/index.html</to>
 	</rule>
 	<rule>
-		<from>/app/treadwear</from>
+		<from>/admin/subcategories</from>
 		<to>/index.html</to>
 	</rule>
 	<rule>
-		<from>/app/tirereports/current</from>
+		<from>/admin/areas</from>
 		<to>/index.html</to>
 	</rule>
 	<rule>
-		<from>/app/tirereports/prediction</from>
+		<from>/admin/services</from>
 		<to>/index.html</to>
 	</rule>
 	<rule>
-		<from>/app/tirereports/warranty</from>
-		<to>/index.html</to>
-	</rule>
-	<rule>
-		<from>/app/tireinspections</from>
-		<to>/index.html</to>
-	</rule>
-	<rule>
-		<from>/app/alerts</from>
+		<from>/admin/vendors</from>
 		<to>/index.html</to>
 	</rule>
 </urlrewrite>

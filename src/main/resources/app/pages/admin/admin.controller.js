@@ -122,7 +122,7 @@ export class AdminController {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
 		return $q(function (resolve, reject) {
-			DataServices.addService({name:vm.data.name,description:vm.data.description}).then(function (response) {
+			DataServices.addService({ name: vm.data.name, description: vm.data.description }).then(function (response) {
 				vm.data = {};
 				resolve(response);
 			}, function (error) {
@@ -135,7 +135,7 @@ export class AdminController {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
 		return $q(function (resolve, reject) {
-			DataServices.updateService({id:vm.data.service.id,name:vm.data.service.name,description:vm.data.service.description}).then(function (response) {
+			DataServices.updateService({ id: vm.data.service.id, name: vm.data.service.name, description: vm.data.service.description }).then(function (response) {
 				vm.data.service = {};
 				resolve(response);
 			}, function (error) {
@@ -174,7 +174,7 @@ export class AdminController {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
 		return $q(function (resolve, reject) {
-			DataServices.addArea({name:vm.data.name}).then(function (response) {
+			DataServices.addArea({ name: vm.data.name }).then(function (response) {
 				vm.data = {};
 				resolve(response);
 			}, function (error) {
@@ -187,7 +187,7 @@ export class AdminController {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
 		return $q(function (resolve, reject) {
-			DataServices.updateArea({id:vm.data.area.id,name:vm.data.area.name}).then(function (response) {
+			DataServices.updateArea({ id: vm.data.area.id, name: vm.data.area.name }).then(function (response) {
 				vm.data.area = {};
 				resolve(response);
 			}, function (error) {
@@ -223,17 +223,57 @@ export class AdminController {
 		});
 	}
 
+	getVendorsList() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		return $q(function (resolve, reject) {
+			DataServices.vendorsList().then(function (response) {
+				vm.data.vendors = response.data;
+				resolve(response);
+			}, function (error) {
+				reject(error);
+			});
+		});
+	}
+
+	getByVendorId() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		return $q(function (resolve, reject) {
+			DataServices.vendorById(vm.data.selected.id).then(function (response) {
+				vm.data.vendor = response.data.vendor;
+				vm.data.categoryId = response.data.vendor.category_id;
+				vm.data.address = response.data.address;
+				vm.data.contact = response.data.contact;
+				let services = [];
+				angular.forEach(response.data.services, function(item, $index) {
+					services.push(item.id);
+				});
+				angular.forEach(vm.data.services, function(item, $index) {
+					if(services.indexOf(item.id) !== -1)
+						item.selected = true;
+					else
+						item.selected = false;
+				});
+				vm.getSubCategories();
+				resolve(response);
+			}, function (error) {
+				reject(error);
+			});
+		});
+	}
+
 	addVendor() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
 		let selectedServices = [];
-		angular.forEach(vm.data.services, function(item, $index) {
-			if(item.selected) {
+		angular.forEach(vm.data.services, function (item, $index) {
+			if (item.selected) {
 				selectedServices.push(item.id);
 			}
 		});
 		return $q(function (resolve, reject) {
-			DataServices.addVendor({vendor:vm.data.vendor,contact:vm.data.contact,address:vm.data.address,services:selectedServices}).then(function (response) {
+			DataServices.addVendor({ vendor: vm.data.vendor, contact: vm.data.contact, address: vm.data.address, services: selectedServices }).then(function (response) {
 				alert("Successfully Added!");
 				vm.data = {};
 				vm.getCategories();
@@ -250,9 +290,20 @@ export class AdminController {
 	updateVendor() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
+		let selectedServices = [];
+		angular.forEach(vm.data.services, function (item, $index) {
+			if (item.selected) {
+				selectedServices.push(item.id);
+			}
+		});
 		return $q(function (resolve, reject) {
-			DataServices.updateArea({id:vm.data.area.id,name:vm.data.area.name}).then(function (response) {
-				vm.data.area = {};
+			DataServices.addVendor({ vendor: vm.data.vendor, contact: vm.data.contact, address: vm.data.address, services: selectedServices }).then(function (response) {
+				alert("Updated successfully!");
+				vm.data = {};
+				vm.getVendorsList();
+				vm.getCategories();
+				vm.getAreas();
+				vm.getServices();
 				resolve(response);
 			}, function (error) {
 				reject(error);
@@ -264,8 +315,12 @@ export class AdminController {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
 		return $q(function (resolve, reject) {
-			DataServices.deleteArea(vm.data.area.id).then(function (response) {
-				vm.data.area = {};
+			DataServices.deleteVendor(vm.data.selected.id).then(function (response) {
+				vm.data = {};
+				vm.getVendorsList();
+				vm.getCategories();
+				vm.getAreas();
+				vm.getServices();
 				resolve(response);
 			}, function (error) {
 				reject(error);

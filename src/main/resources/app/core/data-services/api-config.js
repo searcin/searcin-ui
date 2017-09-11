@@ -15,7 +15,7 @@ export let ApiConfig = {
     },
     'GET_CATEGORIES': {
         'url': '',
-        'setUrl': function() {
+        'setUrl': function () {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/categories/all";
             return this;
         },
@@ -24,7 +24,7 @@ export let ApiConfig = {
     },
     'UPDATE_CATEGORY': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/categories/update";
             this.data = payload;
             return this;
@@ -34,7 +34,7 @@ export let ApiConfig = {
     },
     'DELETE_CATEGORY': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/categories/delete/" + payload;
             return this;
         },
@@ -43,7 +43,7 @@ export let ApiConfig = {
     },
     'GET_SUB_CATEGORIES': {
         'url': '',
-        'setUrl': function(id) {
+        'setUrl': function (id) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/sub-categories/all/" + id;
             return this;
         },
@@ -52,7 +52,7 @@ export let ApiConfig = {
     },
     'SAVE_SUB_CATEGORY': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/sub-categories/save";
             this.data = payload;
             return this;
@@ -62,7 +62,7 @@ export let ApiConfig = {
     },
     'EDIT_SUB_CATEGORY': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/sub-categories/update";
             this.data = payload;
             return this;
@@ -72,8 +72,8 @@ export let ApiConfig = {
     },
     'DELETE_SUB_CATEGORY': {
         'url': '',
-        'setUrl': function(payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/sub-categories/delete/"+payload;
+        'setUrl': function (payload) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/sub-categories/delete/" + payload;
             return this;
         },
         'method': 'GET',
@@ -81,7 +81,7 @@ export let ApiConfig = {
     },
     'GET_SERVICES': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/services/all";
             return this;
         },
@@ -90,7 +90,7 @@ export let ApiConfig = {
     },
     'ADD_SERVICE': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/services/save";
             this.data = payload;
             return this;
@@ -100,7 +100,7 @@ export let ApiConfig = {
     },
     'UPDATE_SERVICE': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/services/update";
             this.data = payload;
             return this;
@@ -110,8 +110,8 @@ export let ApiConfig = {
     },
     'DELETE_SERVICE': {
         'url': '',
-        'setUrl': function(payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/services/delete/"+ payload;
+        'setUrl': function (payload) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/services/delete/" + payload;
             return this;
         },
         'method': 'GET',
@@ -119,7 +119,7 @@ export let ApiConfig = {
     },
     'GET_AREAS': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/areas/all";
             return this;
         },
@@ -128,7 +128,7 @@ export let ApiConfig = {
     },
     'ADD_AREA': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/areas/save";
             this.data = payload;
             return this;
@@ -138,7 +138,7 @@ export let ApiConfig = {
     },
     'UPDATE_AREA': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/areas/update";
             this.data = payload;
             return this;
@@ -148,8 +148,8 @@ export let ApiConfig = {
     },
     'DELETE_AREA': {
         'url': '',
-        'setUrl': function(payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/areas/delete/"+ payload;
+        'setUrl': function (payload) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/areas/delete/" + payload;
             return this;
         },
         'method': 'GET',
@@ -157,8 +157,26 @@ export let ApiConfig = {
     },
     'GET_VENDORS': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/all";
+            return this;
+        },
+        'method': 'GET',
+        'data': {}
+    },
+    'GET_VENDOR_BYID': {
+        'url': '',
+        'setUrl': function (id) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/complete/" + id;
+            return this;
+        },
+        'method': 'GET',
+        'data': {}
+    },
+    'GET_VENDORS_LIST': {
+        'url': '',
+        'setUrl': function (payload) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/list";
             return this;
         },
         'method': 'GET',
@@ -166,7 +184,7 @@ export let ApiConfig = {
     },
     'ADD_VENDOR': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/add";
             this.data = payload;
             return this;
@@ -176,7 +194,7 @@ export let ApiConfig = {
     },
     'UPDATE_VENDOR': {
         'url': '',
-        'setUrl': function(payload) {
+        'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/update";
             this.data = payload;
             return this;
@@ -186,8 +204,8 @@ export let ApiConfig = {
     },
     'DELETE_VENDOR': {
         'url': '',
-        'setUrl': function(payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/delete/"+ payload;
+        'setUrl': function (payload) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/delete/" + payload;
             return this;
         },
         'method': 'GET',

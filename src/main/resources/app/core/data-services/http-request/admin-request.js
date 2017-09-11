@@ -118,4 +118,16 @@ export class AdminRequest {
             return DI.$http(DI.ApiConfig.DELETE_VENDOR.setUrl(payload));
         };
     }
+
+    vendorsList(DI) {
+        return function() {
+            return DI.$http(DI.ApiConfig.GET_VENDORS_LIST.setUrl());
+        };
+    }
+
+    vendorById(DI) {
+        return function(id) {
+            return DI.$http(DI.ApiConfig.GET_VENDOR_BYID.setUrl(id));
+        };
+    }
 }

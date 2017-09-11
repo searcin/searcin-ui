@@ -33,7 +33,9 @@ export function DataServices($log, $q, $http, $rootScope, ApiConfig, BrowserConf
         getVendors: adminRequest.getVendors(DI),
         addVendor: adminRequest.addVendor(DI),
         updateVendor: adminRequest.updateVendor(DI),
-        deleteVendor: adminRequest.deleteVendor(DI)
+        deleteVendor: adminRequest.deleteVendor(DI),
+        vendorsList: adminRequest.vendorsList(DI),
+        vendorById: adminRequest.vendorById(DI)
     };
 
 }
