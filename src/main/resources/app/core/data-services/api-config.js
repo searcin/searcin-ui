@@ -185,7 +185,7 @@ export let ApiConfig = {
     'ADD_VENDOR': {
         'url': '',
         'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/add";
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/save";
             this.data = payload;
             return this;
         },
@@ -206,6 +206,63 @@ export let ApiConfig = {
         'url': '',
         'setUrl': function (payload) {
             this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/delete/" + payload;
+            return this;
+        },
+        'method': 'GET',
+        'data': {}
+    },
+    'ADD_ADDRESS': {
+        'url': '',
+        'setUrl': function (payload) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/addresses/save";
+            this.data = payload;
+            return this;
+        },
+        'method': 'POST',
+        'data': {}
+    },
+    'GET_ADDRESS_BY_VENDOR': {
+        'url': '',
+        'setUrl': function (id) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/addresses/findbyvendor/" + id;
+            return this;
+        },
+        'method': 'GET',
+        'data': {}
+    },
+    'ADD_CONTACT': {
+        'url': '',
+        'setUrl': function (payload) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/contacts/save";
+            this.data = payload;
+            return this;
+        },
+        'method': 'POST',
+        'data': {}
+    },
+    'GET_CONTACT_BY_VENDOR': {
+        'url': '',
+        'setUrl': function (id) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/contacts/findbyvendor/" + id;
+            return this;
+        },
+        'method': 'GET',
+        'data': {}
+    },
+    'ADD_VENDOR_SERVICES': {
+        'url': '',
+        'setUrl': function (payload) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendorservices/save";
+            this.data = payload;
+            return this;
+        },
+        'method': 'POST',
+        'data': {}
+    },
+    'GET_SERVICES_BY_VENDOR': {
+        'url': '',
+        'setUrl': function (id) {
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendorservices/findbyvendor/" + id;
             return this;
         },
         'method': 'GET',

@@ -130,4 +130,39 @@ export class AdminRequest {
             return DI.$http(DI.ApiConfig.GET_VENDOR_BYID.setUrl(id));
         };
     }
+
+    addAddress(DI) {
+        return function(id) {
+            return DI.$http(DI.ApiConfig.ADD_ADDRESS.setUrl(id));
+        };
+    }
+
+    findAddressByVendor(DI) {
+        return function(id) {
+            return DI.$http(DI.ApiConfig.GET_ADDRESS_BY_VENDOR.setUrl(id));
+        };
+    }
+    addVendorServices(DI) {
+        return function(id) {
+            return DI.$http(DI.ApiConfig.ADD_VENDOR_SERVICES.setUrl(id));
+        };
+    }
+
+    findServicesByVendor(DI) {
+        return function(id) {
+            return DI.$http(DI.ApiConfig.GET_SERVICES_BY_VENDOR.setUrl(id));
+        };
+    }
+
+    addContact(DI) {
+        return function(id) {
+            return DI.$http(DI.ApiConfig.ADD_CONTACT.setUrl(id));
+        };
+    }
+
+    findContactByVendor(DI) {
+        return function(id) {
+            return DI.$http(DI.ApiConfig.GET_CONTACT_BY_VENDOR.setUrl(id));
+        };
+    }
 }

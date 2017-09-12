@@ -35,7 +35,13 @@ export function DataServices($log, $q, $http, $rootScope, ApiConfig, BrowserConf
         updateVendor: adminRequest.updateVendor(DI),
         deleteVendor: adminRequest.deleteVendor(DI),
         vendorsList: adminRequest.vendorsList(DI),
-        vendorById: adminRequest.vendorById(DI)
+        vendorById: adminRequest.vendorById(DI),
+        addAddress: adminRequest.addAddress(DI),
+        findAddressByVendor: adminRequest.findAddressByVendor(DI),
+        addContact: adminRequest.addContact(DI),
+        findContactByVendor: adminRequest.findContactByVendor(DI),
+        addVendorServices: adminRequest.addVendorServices(DI),
+        findServicesByVendor: adminRequest.findServicesByVendor(DI)
     };
 
 }

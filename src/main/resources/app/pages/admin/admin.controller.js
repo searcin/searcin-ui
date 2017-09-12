@@ -266,22 +266,14 @@ export class AdminController {
 	addVendor() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		let selectedServices = [];
-		angular.forEach(vm.data.services, function (item, $index) {
-			if (item.selected) {
-				selectedServices.push(item.id);
-			}
-		});
 		return $q(function (resolve, reject) {
-			DataServices.addVendor({ vendor: vm.data.vendor, contact: vm.data.contact, address: vm.data.address, services: selectedServices }).then(function (response) {
+			DataServices.addVendor(vm.data.vendor).then(function (response) {
 				alert("Successfully Added!");
 				vm.data = {};
 				vm.getCategories();
-				vm.getAreas();
-				vm.getServices();
 				resolve(response);
 			}, function (error) {
-				alert("Something went wrong");
+				alert(error.data.message);
 				reject(error);
 			});
 		});
@@ -297,13 +289,11 @@ export class AdminController {
 			}
 		});
 		return $q(function (resolve, reject) {
-			DataServices.addVendor({ vendor: vm.data.vendor, contact: vm.data.contact, address: vm.data.address, services: selectedServices }).then(function (response) {
+			DataServices.updateVendor(vm.data.vendor).then(function (response) {
 				alert("Updated successfully!");
 				vm.data = {};
 				vm.getVendorsList();
 				vm.getCategories();
-				vm.getAreas();
-				vm.getServices();
 				resolve(response);
 			}, function (error) {
 				reject(error);
@@ -319,10 +309,119 @@ export class AdminController {
 				vm.data = {};
 				vm.getVendorsList();
 				vm.getCategories();
-				vm.getAreas();
-				vm.getServices();
+				alert("successfully deleted");
 				resolve(response);
 			}, function (error) {
+				reject(error);
+			});
+		});
+	}
+
+	getAddressByVendorId() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		let vendor_id = vm.address.vendor_id;
+		return $q(function (resolve, reject) {
+			DataServices.findAddressByVendor(vendor_id).then(function (response) {
+				if(response.data === "") {
+					vm.address = {vendor_id:vendor_id};
+				}
+				else {
+					vm.address = response.data;
+				}
+				resolve(response);
+			}, function (error) {
+				reject(error);
+			});
+		});
+	}
+
+	addAddress() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		console.log(vm.address);
+		return $q(function (resolve, reject) {
+			DataServices.addAddress(vm.address).then(function (response) {
+				vm.address = {};
+				alert("Successfully added");
+				resolve(response);
+			}, function (error) {
+				alert(error.data.message);
+				reject(error);
+			});
+		});
+	}
+
+	getContactByVendorId() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		let vendor_id = vm.contact.vendor_id;
+		return $q(function (resolve, reject) {
+			DataServices.findContactByVendor(vendor_id).then(function (response) {
+				if(response.data === "") {
+					vm.contact = {vendor_id:vendor_id};
+				}
+				else {
+					vm.contact = response.data;
+				}
+				resolve(response);
+			}, function (error) {
+				alert(error.data.message);
+				reject(error);
+			});
+		});
+	}
+
+	addContact() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		return $q(function (resolve, reject) {
+			DataServices.addContact(vm.contact).then(function (response) {
+				vm.contact = {};
+				alert("Successfully added");
+				resolve(response);
+			}, function (error) {
+				alert(error.data.message);
+				reject(error);
+			});
+		});
+	}
+
+	getServiceByVendorId() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		return $q(function (resolve, reject) {
+			DataServices.findServicesByVendor(vm.vendor_id).then(function (response) {
+				angular.forEach(vm.data.services, function(item, $index) {
+					if(response.data.indexOf(item.id) != -1)
+						item.selected = true;
+				});
+				resolve(response);
+			}, function (error) {
+				alert(error.data.message);
+				reject(error);
+			});
+		});
+	}
+
+	addVendorServices() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		let services = [];
+		angular.forEach(vm.data.services, function(item, $index) {
+			if(item.selected)
+				services.push(item.id);
+		});
+		return $q(function (resolve, reject) {
+			DataServices.addVendorServices({vendor_id:vm.vendor_id, services:services}).then(function (response) {
+				vm.vendor_id = null;
+				vm.data = {};
+				vm.getVendorsList();
+				vm.getServices();
+				alert("Successfully added");
+				resolve(response);
+			}, function (error) {
+				alert(error.data.message);
 				reject(error);
 			});
 		});
