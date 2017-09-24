@@ -3,48 +3,13 @@
 export let ApiConfig = {
     'BASEURL': '',
     'WEBURL': '',
-    'SAVE_CATEGORY': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/categories/save";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'GET_CATEGORIES': {
-        'url': '',
-        'setUrl': function () {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/categories/all";
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'UPDATE_CATEGORY': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/categories/update";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'DELETE_CATEGORY': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/categories/delete/" + payload;
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
+    'SAVE_CATEGORY': "/admin/category/save",
+    'GET_CATEGORIES': "/admin/categories",
+    'DELETE_CATEGORY': "/admin/category/delete/",
     'GET_SUB_CATEGORIES': {
         'url': '',
         'setUrl': function (id) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/sub-categories/all/" + id;
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/admin/sub-categories/" + id;
             return this;
         },
         'method': 'GET',
@@ -53,17 +18,7 @@ export let ApiConfig = {
     'SAVE_SUB_CATEGORY': {
         'url': '',
         'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/sub-categories/save";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'EDIT_SUB_CATEGORY': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/sub-categories/update";
+            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/admin/sub-category/save";
             this.data = payload;
             return this;
         },

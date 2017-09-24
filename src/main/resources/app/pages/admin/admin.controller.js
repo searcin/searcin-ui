@@ -11,11 +11,12 @@ export class AdminController {
 		vm.data = {};
 	}
 
-	addCategory() {
+	saveCategory() {
 		let vm = this;
 		let { DataServices } = vm.DI();
 		let saveCategory = DataServices.saveCategory({ name: vm.data.name });
 		saveCategory.then(function () {
+			alert("Success");
 			vm.data.name = "";
 		});
 	}
@@ -33,15 +34,6 @@ export class AdminController {
 		});
 	}
 
-	updateCategory() {
-		let vm = this;
-		let { DataServices } = vm.DI();
-		let updateCategory = DataServices.updateCategory({ id: vm.data.category.id, name: vm.data.category.name });
-		updateCategory.then(function () {
-			vm.data.category = null;
-		});
-	}
-
 	deleteCategory() {
 		let vm = this;
 		let { DataServices } = vm.DI();
@@ -49,8 +41,12 @@ export class AdminController {
 		updateCategory.then(function () {
 			vm.data.category = null;
 			vm.getCategories();
+			alert("deleted successfully");
 		});
 	}
+
+
+	//sub categories
 
 	saveSubCategory() {
 		let vm = this;
@@ -58,19 +54,7 @@ export class AdminController {
 		return $q(function (resolve, reject) {
 			DataServices.saveSubCategory({ name: vm.data.name, category_id: vm.data.categoryId }).then(function (response) {
 				vm.data.name = "";
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
-		});
-	}
-
-	updateSubCategory() {
-		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.updateSubCategory({ id: vm.data.subcategory.id, name: vm.data.subcategory.name, category_id: vm.data.categoryId }).then(function (response) {
-				vm.data.subcategory = "";
+				alert("added successfully");
 				resolve(response);
 			}, function (error) {
 				reject(error);
@@ -84,6 +68,7 @@ export class AdminController {
 		return $q(function (resolve, reject) {
 			DataServices.deleteSubCategory(vm.data.subcategory.id).then(function (response) {
 				vm.data.subcategory = "";
+				alert("deleted successfully");
 				vm.getSubCategories();
 				resolve(response);
 			}, function (error) {
@@ -105,6 +90,8 @@ export class AdminController {
 		});
 	}
 
+	//services
+
 	getServices() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
@@ -125,6 +112,7 @@ export class AdminController {
 			DataServices.addService({ name: vm.data.name, description: vm.data.description }).then(function (response) {
 				vm.data = {};
 				resolve(response);
+				alert("added success fully");
 			}, function (error) {
 				reject(error);
 			});
@@ -137,6 +125,8 @@ export class AdminController {
 		return $q(function (resolve, reject) {
 			DataServices.updateService({ id: vm.data.service.id, name: vm.data.service.name, description: vm.data.service.description }).then(function (response) {
 				vm.data.service = {};
+				alert("updated successfully");
+				vm.getServices();
 				resolve(response);
 			}, function (error) {
 				reject(error);
@@ -150,6 +140,8 @@ export class AdminController {
 		return $q(function (resolve, reject) {
 			DataServices.deleteService(vm.data.service.id).then(function (response) {
 				vm.data.service = {};
+				alert("deleted successfully");
+				vm.getServices();
 				resolve(response);
 			}, function (error) {
 				reject(error);
@@ -176,6 +168,7 @@ export class AdminController {
 		return $q(function (resolve, reject) {
 			DataServices.addArea({ name: vm.data.name }).then(function (response) {
 				vm.data = {};
+				alert("added area");
 				resolve(response);
 			}, function (error) {
 				reject(error);
@@ -189,6 +182,7 @@ export class AdminController {
 		return $q(function (resolve, reject) {
 			DataServices.updateArea({ id: vm.data.area.id, name: vm.data.area.name }).then(function (response) {
 				vm.data.area = {};
+				alert("updated successfully");
 				resolve(response);
 			}, function (error) {
 				reject(error);
@@ -202,6 +196,7 @@ export class AdminController {
 		return $q(function (resolve, reject) {
 			DataServices.deleteArea(vm.data.area.id).then(function (response) {
 				vm.data.area = {};
+				alert("deleted successfully");
 				resolve(response);
 			}, function (error) {
 				reject(error);

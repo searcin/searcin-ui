@@ -2,19 +2,16 @@ export class AdminRequest {
     constructor() {
         let vm = this;
     }
+
+    //categories
     saveCategory(DI) {
         return function (payload) {
             return DI.$http(DI.ApiConfig.SAVE_CATEGORY.setUrl(payload));
         };
     }
-    updateCategory(DI) {
-        return function (payload) {
-            return DI.$http(DI.ApiConfig.UPDATE_CATEGORY.setUrl(payload));
-        };
-    }
     getCategories(DI) {
         return function () {
-            return DI.$http(DI.ApiConfig.GET_CATEGORIES.setUrl());
+            return DI.HttpService.get("http://localhost:8080/searcin-web/api/v1/admin/categories");
         };
     }
     deleteCategory(DI) {
@@ -22,6 +19,8 @@ export class AdminRequest {
             return DI.$http(DI.ApiConfig.DELETE_CATEGORY.setUrl(payload));
         };
     }
+
+    //get subcategories
     getSubCategories(DI) {
         return function(id) {
             return DI.$http(DI.ApiConfig.GET_SUB_CATEGORIES.setUrl(id));
@@ -34,17 +33,13 @@ export class AdminRequest {
         };
     }
 
-    updateSubCategory(DI) {
-        return function(payload) {
-            return DI.$http(DI.ApiConfig.EDIT_SUB_CATEGORY.setUrl(payload));
-        };
-    }
-
     deleteSubCategory(DI) {
         return function(payload) {
             return DI.$http(DI.ApiConfig.DELETE_SUB_CATEGORY.setUrl(payload));
         };
     }
+
+    //services
 
     getServices(DI) {
         return function() {
