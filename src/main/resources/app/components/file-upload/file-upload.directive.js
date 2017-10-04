@@ -4,7 +4,8 @@ export
         restrict: 'AE',
         templateUrl: 'components/file-upload/file-upload.html',
         scope: {
-            apiUrl: '='
+            apiUrl: '=',
+            onComplete: '&'
         },
         controller: 'FileUploadController',
         controllerAs: 'fileupload',

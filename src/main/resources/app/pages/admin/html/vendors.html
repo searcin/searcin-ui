@@ -1,165 +1,372 @@
-<div class="categories" ng-init="admin.getVendors()">
-    <div class="row">
-        <div class="col-sm-12">
-            <uib-tabset active="">
-                <uib-tab index="0" heading="Available" ng-click="admin.getVendors()">
-                    <div class="admin-container">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Vendor</th>
-                                    <th>Address</th>
-                                    <th>Contact</th>
-                                    <th>Services</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="item in admin.data.vendors">
-                                    <td>{{item.vendor.id}}</td>
-                                    <td>{{item.vendor.name}}<br>{{item.vendor.description}}<br>Cat:{{item.vendor.category_id}}&nbsp;Sub:{{item.vendor.sub_category_id}}</td>
-                                    <td>{{item.address.doorno}}&nbsp;{{item.address.building}},<br>{{item.address.street}}&nbsp;<br>{{item.address.area}}&nbsp;-&nbsp;{{item.address.pincode}}<br>lat:{{item.address.lat}}&nbsp;lng:{{item.address.lng}}<br>
-                                        <a
-                                            href="http://maps.google.com/?q={{item.address.lat}},{{item.address.lng}}" target="_blank">Map link</a>
-                                    </td>
-                                    <td>{{item.contact.name}}<br>{{item.contact.mobile}}<br>{{item.contact.phone}}<br>{{item.contact.email}}<br>{{item.contact.facebook}}<br>{{item.contact.twitter}}<br>{{item.contact.website}}</td>
-                                    <td>
-                                        <p ng-repeat="service in item.services">{{service.name}}</p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </uib-tab>
-                <uib-tab index="1" heading="Add Vendor" ng-click="admin.data = {};admin.getCategories();">
-                    <div class="admin-container" ng-init="">
-                        <form class="form" name="vendors">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>Name:</td>
-                                        <td><input type="text" class="form-control" ng-model="admin.data.vendor.name" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Description:</td>
-                                        <td><textarea class="form-control" ng-model="admin.data.vendor.description"></textarea></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Category:</td>
-                                        <td><select class="form-control" ng-options="item.id as item.name for item in admin.data.categories"
-                                                ng-model="admin.data.vendor.category_id" ng-change="admin.data.categoryId=admin.data.vendor.category_id;admin.getSubCategories()"></td></tr>
-                                    <tr><td>Sub Category:</td><td><select class="form-control" ng-options="item.id as item.name for item in admin.data.subcategories" ng-model="admin.data.vendor.sub_category_id"></td></tr>
-                                    
-                                </tbody>
-                            </table>
-                            <hr>
-                            <button class="btn btn-primary" type="submit" ng-click="admin.addVendor()" ng-disabled="">Add</button>
-                        </form>
-                    </div>
-                </uib-tab>
-                <uib-tab index="2" heading="Add/Edit Address" ng-click="admin.address = {};admin.getAreas();admin.getVendorsList();">
-                    <div class="admin-container" ng-init="">
-                        <form class="form" name="contact">
-                            <table class="table">
-                                <tbody>
-                                        <tr><td>Vendors :</td><td><select class="form-control" ng-options="item.id as item.name for item in admin.data.vendors" ng-model="admin.address.vendor_id" ng-change="admin.getAddressByVendorId()">
-                                            </select></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Area :</td>
-                                        <td><select class="form-control" ng-options="item.id as item.name for item in admin.data.areas"
-                                                ng-model="admin.address.area_id"></td></tr>
-                                        <tr><td>Door no:</td><td><input type="text" class="form-control" ng-model="admin.address.doorno" /></td></tr>
-                                        <tr><td>Building :</td><td><input type="text" class="form-control" ng-model="admin.address.building" /></td></tr>
-                                        <tr><td>Street:</td><td><input type="text" class="form-control" ng-model="admin.address.street" /></td></tr>
-                                        <tr><td>Pincode:</td><td><input type="text" class="form-control" ng-model="admin.address.pincode" /></td></tr>
-                                        <tr><td>Latitude:</td><td><input type="text" class="form-control" ng-model="admin.address.lat" /></td></tr>
-                                        <tr><td>Longitude:</td><td><input type="text" class="form-control" ng-model="admin.address.lng" /></td></tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <button class="btn btn-primary" type="submit" ng-click="admin.addAddress()" ng-disabled="">Add</button>
-                        </form>
-                    </div>
-                </uib-tab>
-                <uib-tab index="3" heading="Add/Edit Contact" ng-click="admin.contact = {};admin.getVendorsList();">
-                    <div class="admin-container" ng-init="">
-                        <form class="form" name="contact">
-                            <table class="table">
-                                <tbody>
-                                        <tr><td>Vendors :</td><td><select class="form-control" ng-options="item.id as item.name for item in admin.data.vendors" ng-model="admin.contact.vendor_id" ng-change="admin.getContactByVendorId()">
-                                            </select></td>
-                                    </tr>
-                                    <tr><td>Contact Name:</td><td><input type="text" class="form-control" ng-model="admin.contact.name" /></td></tr>
-                                    <tr><td>Phone:</td><td><input type="text" class="form-control" ng-model="admin.contact.phone" /></td></tr>
-                                    <tr><td>Mobile:</td><td><input type="text" class="form-control" ng-model="admin.contact.mobile" /></td></tr>
-                                    <tr><td>Email:</td><td><input type="text" class="form-control" ng-model="admin.contact.email" /></td></tr>
-                                    <tr><td>Website:</td><td><input type="text" class="form-control" ng-model="admin.contact.website" /></td></tr>
-                                    <tr><td>Facebook:</td><td><input type="text" class="form-control" ng-model="admin.contact.facebook" /></td></tr>
-                                    <tr><td>Twitter:</td><td><input type="text" class="form-control" ng-model="admin.contact.twitter" /></td></tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <button class="btn btn-primary" type="submit" ng-click="admin.addContact()" ng-disabled="">Add</button>
-                        </form>
-                    </div>
-                </uib-tab>
-                <uib-tab index="4" heading="Add/Edit Services" ng-click="admin.data = {};admin.getVendorsList();admin.getServices();">
-                    <div class="admin-container" ng-init="">
-                        <form class="form" name="contact">
-                            <table class="table">
-                                <tbody>
-                                        <tr><td>Vendors :</td><td><select class="form-control" ng-options="item.id as item.name for item in admin.data.vendors" ng-model="admin.vendor_id" ng-change="admin.getServiceByVendorId()">
-                                            </select></td>
-                                    </tr>
-                                    <tr><td>Services:</td><td>
-                                        <div style="max-height:100px;overflow:auto;">
-                                        <div ng-repeat="item in admin.data.services"><label><input type="checkbox" ng-model="item.selected">&nbsp;{{item.name}}</label><br></div>  
-                                        </div>
-                                    </td></tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <button class="btn btn-primary" type="submit" ng-click="admin.addVendorServices()" ng-disabled="">Add</button>
-                        </form>
-                    </div>
-                </uib-tab>
-                <uib-tab index="5" heading="Edit/Delete" ng-click="admin.data = {};admin.getCategories();admin.getVendorsList();">
-                    <div class="admin-container">
-                        <form class="form" name="areas">
-                            <label>Select Vendor:</label>
-                            <select class="form-control" ng-options="item as item.name for item in admin.data.vendors" ng-model="admin.data.selected" ng-change="admin.getByVendorId()">
-                                </select>
-                                            <hr>
-                        </form>
-                        <form class="form" name="categories" ng-if="admin.data.vendor">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>Name:</td>
-                                        <td><input type="text" class="form-control" ng-model="admin.data.vendor.name" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Description:</td>
-                                        <td><textarea class="form-control" ng-model="admin.data.vendor.description"></textarea></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Category:</td>
-                                        <td><select class="form-control" ng-options="item.id as item.name for item in admin.data.categories"
-                                                ng-model="admin.data.vendor.category_id" ng-change="admin.data.categoryId=admin.data.vendor.category_id;admin.getSubCategories()"></td></tr>
-                                        <tr><td>Sub Category:</td><td><select class="form-control" ng-options="item.id as item.name for item in admin.data.subcategories" ng-model="admin.data.vendor.sub_category_id"></td></tr>
-                                        
-                                    </tbody>
-                                </table>
-                                <hr>
-                                
-                            <button class="btn btn-primary" type="submit" ng-click="admin.updateVendor()" ng-disabled="!admin.data.vendor">Update</button>
-                            <button class="btn btn-primary" type="submit" ng-click="admin.deleteVendor()" ng-disabled="!admin.data.vendor">Delete</button>
-                            </form>
-                    </div>
-                </uib-tab>
-            </uib-tabset>
+<div class="vendors details">
+    <div ng-if="admin.index === 0" ng-init="admin.getVendors()">
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn btn-primary mb-20" type="button" ui-sref="admin({index:1})">Add Vendor</button>
+                <div class="table-responsive">
+                    <table class="table table-striped" ng-if="admin.vendors.length > 0">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in admin.vendors">
+                                <td>{{$index + 1}}</td>
+                                <td>{{item.name}}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-xs mr-10" ui-sref="admin({index:1,selected:item.id})"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Update</button>
+
+                                    <!-- <button class="btn btn-default btn-xs mr-10"><i class="glyphicon glyphicon-resize-full" aria-hidden="true"></i>&nbsp;&nbsp;Detail</button> -->
+
+                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.vendor.id=item.id;admin.deleteVendor();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>&nbsp;&nbsp;Delete</button>
+                                </td>
+                            </tr>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="admin.index === 1">
+        <div class="row mb-20">
+            <div class="col-sm-6">
+                <h2 ng-if="admin.selected==''">Save</h2>
+                <h2 ng-if="admin.selected" ng-init="admin.vendor.id = admin.selected;admin.getVendor();">Update</h2>
+            </div>
+            <div class="col-sm-6">
+                <button class="btn btn-danger pull-right" type="button" ui-sref="admin({index:0,selected:''})">Home</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-4">
+                <label>Name:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" ng-model="admin.vendor.name" class="form-control" />
+            </div>
+        </div>
+        <div class="row mt-20">
+            <div class="col-sm-4">
+                <label>Description:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" ng-model="admin.vendor.description" class="form-control" />
+            </div>
+        </div>
+        <div class="row mt-20">
+            <div class="col-sm-4">
+                <label>Category:</label>
+            </div>
+            <div class="col-sm-8" ng-init="admin.getCategories()">
+                <select class="form-control" ng-options="item.id as item.name for item in admin.categories" ng-model="admin.vendor.category.id"
+                    ng-change="admin.category.id=admin.vendor.category.id;admin.getSubCategories()">
+                        </select>
+            </div>
+        </div>
+        <div class="row mt-20">
+            <div class="col-sm-4">
+                <label>Sub Category:</label>
+            </div>
+            <div class="col-sm-8">
+                <select class="form-control" ng-options="item.id as item.name for item in admin.subcategories" ng-model="admin.vendor.subCategory.id">
+                            </select>
+            </div>
+        </div>
+        <div class="row mt-20">
+            <div class="col-sm-4">
+                <label>Class Range:</label>
+            </div>
+            <div class="col-sm-8" ng-init="admin.getClassRange()">
+                <select class="form-control" ng-options="item.id as item.name for item in admin.classranges" ng-model="admin.vendor.classRange.id">
+                            </select>
+            </div>
+        </div>
+        <div class="row mt-20">
+            <div class="col-sm-12">
+                <button class="btn btn-default" type="button" ui-sref="admin({index:2,selected:admin.vendor.id})" ng-if="admin.vendor.id&&admin.vendor.category.id"
+                    ng-init="admin.category=admin.vendor.category;admin.getSubCategories();">Next</button>
+                <button class="btn btn-primary" type="button" ng-click="admin.saveVendor()">Save</button>
+            </div>
+        </div>
+    </div>
+    <div ng-if="admin.index === 2">
+        <div class="row mb-20" ng-init="admin.vendor.id=admin.selected;admin.getAddress();admin.getAreas();">
+            <div class="col-sm-6">
+                <h2>Update Address</h2>
+            </div>
+            <div class="col-sm-6">
+                <button class="btn btn-default pull-right" type="button" ui-sref="admin({index:1})">Back</button>
+                <button class="btn btn-danger pull-right mr-10" type="button" ui-sref="admin({index:0,selected:''})">Home</button>
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Door no:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.address.doorno" />
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Building:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.address.building" />
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Street:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.address.street" />
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Area:</label>
+            </div>
+            <div class="col-sm-8">
+                <select class="form-control" ng-options="item.id as item.name for item in admin.areas" ng-model="admin.address.area.id">
+                        </select>
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Latitude:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.address.lat" />
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Longitude:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.address.lng" />
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Pincode:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.address.pincode" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn btn-default mr-10" type="button" ui-sref="admin({index:3})">Next</button>
+                <button class="btn btn-primary" type="button" ng-click="admin.saveAddress()">Save</button>
+            </div>
+        </div>
+    </div>
+    <div ng-if="admin.index === 3">
+        <div class="row mb-20" ng-init="admin.vendor.id=admin.selected;admin.getContact();">
+            <div class="col-sm-6">
+                <h2>Update Contact</h2>
+            </div>
+            <div class="col-sm-6">
+                <button class="btn btn-default pull-right" type="button" ui-sref="admin({index:2})">Back</button>
+                <button class="btn btn-danger pull-right mr-10" type="button" ui-sref="admin({index:2,selected:''})">Home</button>
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Name:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.contact.name" />
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Email:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.contact.email" />
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Mobile:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.contact.mobile" />
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Phone:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.contact.phone" />
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Facebook:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.contact.facebook" />
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Twitter:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.contact.twitter" />
+            </div>
+        </div>
+        <div class="row mb-20">
+            <div class="col-sm-4">
+                <label>Website:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="admin.contact.website" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn btn-default mr-10" type="button" ui-sref="admin({index:4})">Next</button>
+                <button class="btn btn-primary" type="button" ng-click="admin.saveContact()">Save</button>
+            </div>
+        </div>
+    </div>
+    <div ng-if="admin.index === 4">
+        <div class="row" ng-init="admin.vendor.id=admin.selected;admin.getVendorServices();">
+            <div class="col-sm-6">
+                <h2>Update Services</h2>
+            </div>
+            <div class="col-sm-6">
+                <button class="btn btn-default pull-right" type="button" ui-sref="admin({index:3})">Back</button>
+                <button class="btn btn-danger pull-right mr-10" type="button" ui-sref="admin({index:0,selected:''})">Home</button>
+            </div>
+        </div>
+        <div class="row mt-20">
+            <div class="col-sm-4">
+                <label>Selected Services:</label>
+            </div>
+            <div class="col-sm-8">
+                <p ng-if="admin.selectedServices.length > 0">
+                    <span ng-repeat="item in admin.selectedServices">{{item}} <b ng-if="(admin.selectedServices.length - 1) > $index">,</b> </span>
+                </p>
+                <span ng-if="admin.selectedServices.length === 0"><p>No services selected!</p></span>
+            </div>
+        </div>
+        <div class="row mt-20">
+            <div class="col-sm-4">
+                <label>Select Services:</label>
+
+            </div>
+            <div class="col-sm-8">
+                <input type="text" ng-model="admin.filter.service" class="form-control" placeholder="Search" />
+                <div class="service-select" style="max-height:200px;overflow:auto;">
+                    <table class="table table-hover table-bordered">
+                        <tbody>
+                            <tr ng-repeat="item in admin.services | filter:admin.filter.service">
+                                <td><label><input type="checkbox" ng-model="item.selected" ng-change="admin.addVendorService(item)">&nbsp;&nbsp;&nbsp;{{item.name}}</label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
+        <div class="row mt-20">
+            <div class="col-sm-12">
+                <button class="btn btn-default mr-10" type="button" ui-sref="admin({index:5})">Next</button>
+                <button class="btn btn-primary" type="button" ng-click="admin.saveVendorServices()">Save</button>
+            </div>
+        </div>
+    </div>
+    <div ng-if="admin.index === 5" ng-init="admin.vendor.id=admin.selected;admin.getLogo();">
+        <div ng-if="admin.logo.images.length === 0" ng-init="admin.setLogoUrl()">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Logo upload</h2>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-default pull-right" type="button" ui-sref="admin({index:4})">Back</button>
+                    <button class="btn btn-danger pull-right mr-10" type="button" ui-sref="admin({index:0,selected:''})">Home</button>
+                </div>
+            </div>
+            <hr>
+            <file-upload api-url="admin.logoUrl" on-complete="admin.getLogo()"></file-upload>
+            <button class="btn btn-default mt-20" type="button" ui-sref="admin({index:6})">Next</button>
+        </div>
+        <div ng-if="admin.logo.images.length > 0">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Uploaded Logo</h2>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-default pull-right" type="button" ui-sref="admin({index:4})">Back</button>
+                    <button class="btn btn-danger pull-right mr-10" type="button" ui-sref="admin({index:0,selected:''})">Home</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="{{admin.logo.host+admin.logo.images[0]}}" target="_blank">
+                    <img ng-src="{{admin.logo.host+admin.logo.images[0]}}" width="200" />
+                    </a>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-default mr-10" type="button" ui-sref="admin({index:6})">Next</button>
+                    <button class="btn btn-danger" type="button" ng-click="admin.deleteLogo(admin.logo.images[0])">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="admin.index === 6" ng-init="admin.vendor.id=admin.selected;admin.getGallery();">
+        <div ng-if="admin.gallery.images.length < 5" ng-init="admin.setGalleryUrl()">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Gallery upload</h2>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-default pull-right" type="button" ui-sref="admin({index:5})">Back</button>
+                    <button class="btn btn-danger pull-right mr-10" type="button" ui-sref="admin({index:0,selected:''})">Home</button>
+                </div>
+            </div>
+            <hr>
+            <file-upload api-url="admin.galleryUrl" on-complete="admin.getGallery()"></file-upload>
+            <hr>
+        </div>
+        <div ng-if="admin.gallery.images.length > 0">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Uploaded Gallery</h2>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-default pull-right" type="button" ui-sref="admin({index:5})">Back</button>
+                    <button class="btn btn-danger pull-right mr-10" type="button" ui-sref="admin({index:0,selected:''})">Home</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div ng-repeat="item in admin.gallery.images" style="width:33%;display:inline-block;" class="mb-20">
+                        <a href="{{admin.gallery.host+item}}" target="_blank">
+                        <img ng-src="{{admin.gallery.host+item}}" style="width:90%" />
+                        </a>
+                        <button class="btn btn-danger mt-10" type="button" ng-click="admin.deleteGallery(item)">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

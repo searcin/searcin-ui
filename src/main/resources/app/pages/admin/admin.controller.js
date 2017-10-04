@@ -1,424 +1,402 @@
 
 export class AdminController {
-	constructor($scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q) {
+	constructor($scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q, ApiConfig) {
 		'ngInject';
 		let vm = this;
-		vm.DI = () => ({ $scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q });
+		vm.DI = () => ({ $scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q, ApiConfig });
 		$scope.$emit("initAdminService");
 		vm.menu = AdminConstants.menu;
 		vm.active = $stateParams.page;
+		vm.index = parseInt($stateParams.index);
 		vm.url = "pages/admin/html/" + $stateParams.page + ".html";
 		vm.data = {};
+
+
+		vm.selected = $stateParams.selected;
 	}
 
 	saveCategory() {
 		let vm = this;
+		let { DataServices, $state } = vm.DI();
+		DataServices.saveCategory(vm.category).then(function (response) {
+			if (response.status === 200) {
+				alert("success");
+				if (vm.selected === '') {
+					vm.category = {};
+				}
+			}
+		});
+	}
+
+	getCategory() {
+		let vm = this;
 		let { DataServices } = vm.DI();
-		let saveCategory = DataServices.saveCategory({ name: vm.data.name });
-		saveCategory.then(function () {
-			alert("Success");
-			vm.data.name = "";
+		DataServices.getCategory(vm.category.id).then(function (response) {
+			if (response.status === 200) {
+				vm.category = response.data;
+			}
 		});
 	}
 
 	getCategories() {
 		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.getCategories().then(function (response) {
-				vm.data.categories = response.data;
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		let { DataServices } = vm.DI();
+		DataServices.getCategories().then(function (response) {
+			if (response.status === 200) {
+				vm.categories = response.data;
+			}
 		});
 	}
 
 	deleteCategory() {
 		let vm = this;
 		let { DataServices } = vm.DI();
-		let updateCategory = DataServices.deleteCategory(vm.data.category.id);
-		updateCategory.then(function () {
-			vm.data.category = null;
-			vm.getCategories();
-			alert("deleted successfully");
+		DataServices.deleteCategory(vm.category.id).then(function (response) {
+			if (response.status === 200) {
+				angular.forEach(vm.categories, function (item, $index) {
+					if (item.id === vm.category.id) {
+						vm.categories.splice($index, 1);
+					}
+				});
+				alert("deleted");
+			}
 		});
 	}
 
 
 	//sub categories
 
+
+	getSubCategories() {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		if (vm.category.id) {
+			DataServices.getSubCategories(vm.category.id).then(function (response) {
+				if (response.status === 200)
+					vm.subcategories = response.data;
+			});
+		}
+	}
+
+	getSubCategory() {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		DataServices.getSubCategory(vm.subcategory.id).then(function (response) {
+			if (response.status === 200)
+				vm.subcategory = response.data;
+		});
+	}
+
 	saveSubCategory() {
 		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.saveSubCategory({ name: vm.data.name, category_id: vm.data.categoryId }).then(function (response) {
-				vm.data.name = "";
-				alert("added successfully");
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		let { DataServices } = vm.DI();
+		DataServices.saveSubCategory(vm.category.id, vm.subcategory).then(function (response) {
+			if (response.status === 200) {
+				alert("success");
+				if (vm.selected.indexOf(",") === -1) {
+					vm.subcategory = {};
+				}
+			}
 		});
 	}
 
 	deleteSubCategory() {
 		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.deleteSubCategory(vm.data.subcategory.id).then(function (response) {
-				vm.data.subcategory = "";
-				alert("deleted successfully");
-				vm.getSubCategories();
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		let { DataServices } = vm.DI();
+		DataServices.deleteSubCategory(vm.subcategory.id).then(function (response) {
+			if (response.status === 200) {
+				angular.forEach(vm.subcategories, function (item, $index) {
+					if (item.id === vm.subcategory.id) {
+						vm.subcategories.splice($index, 1);
+					}
+				});
+				alert("deleted");
+			}
 		});
 	}
 
-	getSubCategories() {
-		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.getSubCategories(vm.data.categoryId).then(function (response) {
-				vm.data.subcategories = response.data;
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
-		});
-	}
 
 	//services
 
 	getServices() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.getServices().then(function (response) {
-				vm.data.services = response.data;
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		DataServices.getServices().then(function (response) {
+			vm.services = response.data;
 		});
 	}
 
-	addService() {
+	getService() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.addService({ name: vm.data.name, description: vm.data.description }).then(function (response) {
-				vm.data = {};
-				resolve(response);
-				alert("added success fully");
-			}, function (error) {
-				reject(error);
-			});
+		DataServices.getService(vm.service.id).then(function (response) {
+			vm.service = response.data;
 		});
 	}
 
-	updateService() {
+	saveService() {
 		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.updateService({ id: vm.data.service.id, name: vm.data.service.name, description: vm.data.service.description }).then(function (response) {
-				vm.data.service = {};
-				alert("updated successfully");
-				vm.getServices();
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		let { DataServices } = vm.DI();
+		DataServices.saveService(vm.service).then(function (response) {
+			if (response.status === 200) {
+				alert("success");
+				if (vm.selected === '') {
+					vm.service = {};
+				}
+			}
 		});
 	}
 
 	deleteService() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.deleteService(vm.data.service.id).then(function (response) {
-				vm.data.service = {};
-				alert("deleted successfully");
-				vm.getServices();
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		DataServices.deleteService(vm.service.id).then(function (response) {
+			if (response.status === 200) {
+				angular.forEach(vm.services, function (item, $index) {
+					if (item.id === vm.service.id) {
+						vm.services.splice($index, 1);
+					}
+				});
+				alert("deleted");
+			}
 		});
 	}
 
 	getAreas() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.getAreas().then(function (response) {
-				vm.data.areas = response.data;
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		DataServices.getAreas().then(function (response) {
+			vm.areas = response.data;
 		});
 	}
 
-	addArea() {
+	getArea() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.addArea({ name: vm.data.name }).then(function (response) {
-				vm.data = {};
-				alert("added area");
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		DataServices.getArea(vm.area.id).then(function (response) {
+			vm.area = response.data;
 		});
 	}
 
-	updateArea() {
+	saveArea() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.updateArea({ id: vm.data.area.id, name: vm.data.area.name }).then(function (response) {
-				vm.data.area = {};
-				alert("updated successfully");
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		DataServices.saveArea(vm.area).then(function (response) {
+			if (response.status === 200) {
+				alert("success");
+				if (vm.selected === '') {
+					vm.area = {};
+				}
+			}
 		});
 	}
 
 	deleteArea() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.deleteArea(vm.data.area.id).then(function (response) {
-				vm.data.area = {};
-				alert("deleted successfully");
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		DataServices.deleteArea(vm.area.id).then(function (response) {
+			if (response.status === 200) {
+				angular.forEach(vm.areas, function (item, $index) {
+					if (item.id === vm.area.id) {
+						vm.areas.splice($index, 1);
+					}
+				});
+				alert("deleted");
+			}
 		});
 	}
 
 
 	getVendors() {
+
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.getVendors().then(function (response) {
-				vm.data.vendors = response.data;
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		DataServices.getVendors().then(function (response) {
+			vm.vendors = response.data;
 		});
 	}
 
-	getVendorsList() {
+	getVendor() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.vendorsList().then(function (response) {
-				vm.data.vendors = response.data;
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
+		DataServices.getVendor(vm.vendor.id).then(function (response) {
+			vm.vendor = response.data;
 		});
 	}
 
-	getByVendorId() {
+	saveVendor() {
 		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.vendorById(vm.data.selected.id).then(function (response) {
-				vm.data.vendor = response.data.vendor;
-				vm.data.categoryId = response.data.vendor.category_id;
-				vm.data.address = response.data.address;
-				vm.data.contact = response.data.contact;
-				let services = [];
-				angular.forEach(response.data.services, function(item, $index) {
-					services.push(item.id);
-				});
-				angular.forEach(vm.data.services, function(item, $index) {
-					if(services.indexOf(item.id) !== -1)
-						item.selected = true;
-					else
-						item.selected = false;
-				});
-				vm.getSubCategories();
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
-		});
-	}
-
-	addVendor() {
-		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.addVendor(vm.data.vendor).then(function (response) {
-				alert("Successfully Added!");
-				vm.data = {};
-				vm.getCategories();
-				resolve(response);
-			}, function (error) {
-				alert(error.data.message);
-				reject(error);
-			});
-		});
-	}
-
-	updateVendor() {
-		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		let selectedServices = [];
-		angular.forEach(vm.data.services, function (item, $index) {
-			if (item.selected) {
-				selectedServices.push(item.id);
+		let { DataServices, $state } = vm.DI();
+		DataServices.saveVendor(vm.vendor).then(function (response) {
+			if(response.status === 200) {
+				alert("success");
+				vm.vendor = response.data;
 			}
-		});
-		return $q(function (resolve, reject) {
-			DataServices.updateVendor(vm.data.vendor).then(function (response) {
-				alert("Updated successfully!");
-				vm.data = {};
-				vm.getVendorsList();
-				vm.getCategories();
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
 		});
 	}
 
 	deleteVendor() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.deleteVendor(vm.data.selected.id).then(function (response) {
-				vm.data = {};
-				vm.getVendorsList();
-				vm.getCategories();
-				alert("successfully deleted");
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
-		});
-	}
-
-	getAddressByVendorId() {
-		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		let vendor_id = vm.address.vendor_id;
-		return $q(function (resolve, reject) {
-			DataServices.findAddressByVendor(vendor_id).then(function (response) {
-				if(response.data === "") {
-					vm.address = {vendor_id:vendor_id};
-				}
-				else {
-					vm.address = response.data;
-				}
-				resolve(response);
-			}, function (error) {
-				reject(error);
-			});
-		});
-	}
-
-	addAddress() {
-		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		console.log(vm.address);
-		return $q(function (resolve, reject) {
-			DataServices.addAddress(vm.address).then(function (response) {
-				vm.address = {};
-				alert("Successfully added");
-				resolve(response);
-			}, function (error) {
-				alert(error.data.message);
-				reject(error);
-			});
-		});
-	}
-
-	getContactByVendorId() {
-		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		let vendor_id = vm.contact.vendor_id;
-		return $q(function (resolve, reject) {
-			DataServices.findContactByVendor(vendor_id).then(function (response) {
-				if(response.data === "") {
-					vm.contact = {vendor_id:vendor_id};
-				}
-				else {
-					vm.contact = response.data;
-				}
-				resolve(response);
-			}, function (error) {
-				alert(error.data.message);
-				reject(error);
-			});
-		});
-	}
-
-	addContact() {
-		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.addContact(vm.contact).then(function (response) {
-				vm.contact = {};
-				alert("Successfully added");
-				resolve(response);
-			}, function (error) {
-				alert(error.data.message);
-				reject(error);
-			});
-		});
-	}
-
-	getServiceByVendorId() {
-		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		return $q(function (resolve, reject) {
-			DataServices.findServicesByVendor(vm.vendor_id).then(function (response) {
-				angular.forEach(vm.data.services, function(item, $index) {
-					if(response.data.indexOf(item.id) != -1)
-						item.selected = true;
+		DataServices.deleteVendor(vm.vendor.id).then(function (response) {
+			if (response.status === 200) {
+				angular.forEach(vm.vendors, function (item, $index) {
+					if (item.id === vm.vendor.id) {
+						vm.vendors.splice($index, 1);
+					}
 				});
-				resolve(response);
-			}, function (error) {
-				alert(error.data.message);
-				reject(error);
-			});
+				alert("deleted");
+			}
 		});
 	}
 
-	addVendorServices() {
+	getAddress() {
 		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		let services = [];
-		angular.forEach(vm.data.services, function(item, $index) {
-			if(item.selected)
-				services.push(item.id);
-		});
-		return $q(function (resolve, reject) {
-			DataServices.addVendorServices({vendor_id:vm.vendor_id, services:services}).then(function (response) {
-				vm.vendor_id = null;
-				vm.data = {};
-				vm.getVendorsList();
-				vm.getServices();
-				alert("Successfully added");
-				resolve(response);
-			}, function (error) {
-				alert(error.data.message);
-				reject(error);
-			});
+		let { DataServices } = vm.DI();
+		DataServices.getAddress(vm.vendor.id).then(function (response) {
+			vm.address = response.data;
 		});
 	}
+
+
+	saveAddress() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		DataServices.saveAddress(vm.vendor.id, vm.address).then(function (response) {
+			alert("success");
+		});
+	}
+
+
+	getClassRange() {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		DataServices.getClassRange().then(function (response) {
+			vm.classranges = response.data;
+		});
+	}
+
+	getContact() {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		DataServices.getContact(vm.vendor.id).then(function (response) {
+			vm.contact = response.data;
+		});
+	}
+
+
+	saveContact() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		DataServices.saveContact(vm.vendor.id, vm.contact).then(function (response) {
+			if (response.status === 200)
+				alert("success");
+		});
+	}
+
+	getVendorServices() {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		vm.selectedServices = [];
+		vm.selectedServiceId = [];
+		DataServices.getServices().then(function (response) {
+			if (response.status === 200) {
+				vm.services = response.data;
+				DataServices.getVendorServices(vm.vendor.id).then(function (response) {
+					if (response.status === 200) {
+						let selected = response.data;
+						angular.forEach(vm.services, function (item, $index) {
+							if (selected.indexOf(item.id) !== -1) {
+								item.selected = true;
+								vm.selectedServices.push(item.name);
+							}
+							else {
+								item.selected = false;
+							}
+						});
+					}
+				});
+			}
+		});
+
+	}
+
+	addVendorService(item) {
+		let vm = this;
+
+		if (item.selected) {
+			vm.selectedServices.push(item.name);
+			vm.selectedServiceId.push(item.id);
+		}
+		else {
+			vm.selectedServices.splice(vm.selectedServices.indexOf(item.name), 1);
+			vm.selectedServiceId.splice(vm.selectedServiceId.indexOf(item.id), 1);
+		}
+	}
+
+	saveVendorServices() {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		DataServices.saveVendorServices(vm.vendor.id, vm.selectedServiceId).then(function (response) {
+			if (response.status === 200) {
+				alert("success");
+			}
+		});
+	}
+
+	getLogo() {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		DataServices.getLogo(vm.vendor.id).then(function(response) {
+			if(response.status === 200) {
+				vm.logo = response.data;
+			}
+		});
+	}
+
+	setLogoUrl() {
+		let vm = this;
+		let { ApiConfig } = vm.DI();
+		vm.logoUrl = ApiConfig.BASEURL + ApiConfig.WEBURL + ApiConfig.UPLOAD_LOGO.replace("%id%",vm.vendor.id);
+	}
+
+	deleteLogo(key) {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		DataServices.deleteAsset({key:key}).then(function(response) {
+			if(response.status === 200) {
+				alert("deleted");
+				vm.getLogo();
+			}
+		});
+	}
+
+	deleteGallery(key) {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		DataServices.deleteAsset({key:key}).then(function(response) {
+			if(response.status === 200) {
+				alert("deleted");
+				vm.getGallery();
+			}
+		});
+	}
+
+	getGallery() {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		DataServices.getGallery(vm.vendor.id).then(function(response) {
+			if(response.status === 200) {
+				vm.gallery = response.data;
+			}
+		});
+	}
+
+	setGalleryUrl() {
+		let vm = this;
+		let { ApiConfig } = vm.DI();
+		vm.galleryUrl = ApiConfig.BASEURL + ApiConfig.WEBURL + ApiConfig.UPLOAD_GALLERY.replace("%id%",vm.vendor.id);
+	}
+
+	
 }

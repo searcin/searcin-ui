@@ -4,9 +4,6 @@ export let AdminConfig = {
         name: "Categories",
         value: "categories"
     }, {
-        name: "Sub Categories",
-        value: "subcategories"
-    }, {
         name: "Services",
         value: "services"
     }, {
@@ -15,8 +12,5 @@ export let AdminConfig = {
     }, {
         name: "Vendors",
         value: "vendors"
-    }, {
-        name: "Images",
-        value: "images"
     }]
 };

@@ -10,7 +10,8 @@ export function HttpService($http, ApiConfig) {
             return DI.$http.get(url).then(function (response) {
                 return response;
             }, function (error) {
-                alert(error.data.message);
+                alert(error.data.error + "\n" + error.data.message);
+                return error;
             });
         },
         post: function (postUrl, data) {
@@ -19,6 +20,7 @@ export function HttpService($http, ApiConfig) {
                 return response;
             }, function (error) {
                 alert(error.data.message);
+                return error;
             });
         }
         // other $http wrappers

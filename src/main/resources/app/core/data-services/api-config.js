@@ -3,224 +3,38 @@
 export let ApiConfig = {
     'BASEURL': '',
     'WEBURL': '',
+    'HEALTH': '/health/ok',
     'SAVE_CATEGORY': "/admin/category/save",
     'GET_CATEGORIES': "/admin/categories",
-    'DELETE_CATEGORY': "/admin/category/delete/",
-    'GET_SUB_CATEGORIES': {
-        'url': '',
-        'setUrl': function (id) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/admin/sub-categories/" + id;
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'SAVE_SUB_CATEGORY': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/admin/sub-category/save";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'DELETE_SUB_CATEGORY': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/sub-categories/delete/" + payload;
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'GET_SERVICES': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/services/all";
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'ADD_SERVICE': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/services/save";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'UPDATE_SERVICE': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/services/update";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'DELETE_SERVICE': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/services/delete/" + payload;
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'GET_AREAS': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/areas/all";
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'ADD_AREA': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/areas/save";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'UPDATE_AREA': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/areas/update";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'DELETE_AREA': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/areas/delete/" + payload;
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'GET_VENDORS': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/all";
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'GET_VENDOR_BYID': {
-        'url': '',
-        'setUrl': function (id) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/complete/" + id;
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'GET_VENDORS_LIST': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/list";
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'ADD_VENDOR': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/save";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'UPDATE_VENDOR': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/update";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'DELETE_VENDOR': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendors/delete/" + payload;
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'ADD_ADDRESS': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/addresses/save";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'GET_ADDRESS_BY_VENDOR': {
-        'url': '',
-        'setUrl': function (id) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/addresses/findbyvendor/" + id;
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'ADD_CONTACT': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/contacts/save";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'GET_CONTACT_BY_VENDOR': {
-        'url': '',
-        'setUrl': function (id) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/contacts/findbyvendor/" + id;
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    },
-    'ADD_VENDOR_SERVICES': {
-        'url': '',
-        'setUrl': function (payload) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendorservices/save";
-            this.data = payload;
-            return this;
-        },
-        'method': 'POST',
-        'data': {}
-    },
-    'GET_SERVICES_BY_VENDOR': {
-        'url': '',
-        'setUrl': function (id) {
-            this.url = ApiConfig.BASEURL + ApiConfig.WEBURL + "/vendorservices/findbyvendor/" + id;
-            return this;
-        },
-        'method': 'GET',
-        'data': {}
-    }
+    'GET_CATEGORY': "/admin/category/%id%",
+    'DELETE_CATEGORY': "/admin/category/%id%/delete",
+    'GET_SUB_CATEGORIES': "/admin/category/%id%/subcategories",
+    'GET_SUB_CATEGORY': "/admin/subcategory/%id%",
+    'SAVE_SUB_CATEGORY': "/admin/category/%id%/subcategory/save",
+    'DELETE_SUB_CATEGORY': "/admin/subcategory/%id%/delete",
+    'GET_SERVICES': "/admin/services",
+    'GET_SERVICE': "/admin/service/%id%",
+    'SAVE_SERVICE': "/admin/service/save",
+    'DELETE_SERVICE': "/admin/service/%id%/delete",
+    'GET_AREAS': "/admin/areas",
+    'GET_AREA': "/admin/area/%id%",
+    'SAVE_AREA': "/admin/area/save",
+    'DELETE_AREA': "/admin/area/%id%/delete",
+    'GET_VENDORS': "/admin/vendors",
+    'GET_VENDOR': "/admin/vendor/%id%",
+    'SAVE_VENDOR':  "/admin/vendor/save",
+    'DELETE_VENDOR': "/admin/vendor/%id%/delete",
+    'SAVE_ADDRESS': "/admin/vendor/%id%/address/save",
+    'ADDRESS_BY_VENDOR': "/admin/vendor/%id%/address",
+    'SAVE_CONTACT': "/admin/vendor/%id%/contact/save",
+    'CONTACT_BY_VENDOR': "/admin/vendor/%id%/contact",
+    'SAVE_VENDOR_SERVICES': "/admin/vendor/%id%/services/save",
+    'SERVICES_BY_VENDOR': "/admin/vendor/%id%/services",
+    'CLASS_RANGE': "/admin/classrange",
+    'GET_LOGO': "/admin/vendor/%id%/logo",
+    'UPLOAD_LOGO': "/admin/vendor/%id%/logo/upload",
+    'DELETE_LOGO': "/admin/vendor/asset/delete",
+    'GET_GALLERY': "/admin/vendor/%id%/gallery",
+    'UPLOAD_GALLERY': "/admin/vendor/%id%/gallery/upload",
+    'DELETE_GALLERY': "/admin/vendor/asset/delete"
 };

@@ -3,10 +3,12 @@ export function AdminRouter($stateProvider, $httpProvider) {
 	'ngInject';
 	$stateProvider
 		.state('admin', {
-			url: '/admin/:page',
+			url: '/admin/:page?index&selected',
 			parent: 'searcin',
 			params: {
-				page:"categories"
+				page:"categories",
+				index: "0",
+				selected: ""
 			},
 			templateUrl: 'pages/admin/admin.html',
 			controller: 'AdminController',

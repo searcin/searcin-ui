@@ -73,16 +73,24 @@ export class FileUploadController {
             //vm.onSuccessUpload();
         };
         uploader.onErrorItem = function (fileItem, response, status, headers) {
+            alert(response.message);
             console.info('onErrorItem', fileItem, response, status, headers);
         };
         uploader.onCancelItem = function (fileItem, response, status, headers) {
             console.info('onCancelItem', fileItem, response, status, headers);
         };
         uploader.onCompleteItem = function (fileItem, response, status, headers) {
-            console.info('onCompleteItem', fileItem, response, status, headers);
+            //console.info('onCompleteItem', fileItem, response, status, headers);
+            if(status === 200) {
+                vm.onComplete();
+            }
         };
-        uploader.onCompleteAll = function () {
+        uploader.onCompleteAll = function (fileItem, response, status, headers) {
             //vm.onSuccessUpload();
+            alert("success");
+            uploader.queue = [];
+            uploader.progress = 0;
+            angular.element(document.getElementById("input-file")).val("");
         };
 
         //console.info('uploader', uploader);

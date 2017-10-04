@@ -12,6 +12,19 @@ p {
     padding: 0;
 }
 
+.details {
+    background: #fff;
+    padding: 20px;
+}
+
+.btn {
+    min-width: 100px;
+}
+
+.btn-xs {
+    min-width: 0px;
+}
+
 * {
     font-family: OpenSansRegular;
 }
@@ -21,7 +34,7 @@ p {
 }
 
 .mt-5 {
-    margin-top: px;
+    margin-top: 5px;
 }
 
 .mt-10 {
@@ -34,4 +47,46 @@ p {
 
 .mt-20 {
     margin-top: 20px;
+}
+
+
+.mb-0 {
+    margin-bottom: 0px;
+}
+
+.mb-5 {
+    margin-bottom: 5px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mb-15 {
+    margin-bottom: 15px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+
+.mr-0 {
+    margin-right: 0px;
+}
+
+.mr-5 {
+    margin-right: 5px;
+}
+
+.mr-10 {
+    margin-right: 10px;
+}
+
+.mr-15 {
+    margin-right: 15px;
+}
+
+.mr-20 {
+    margin-right: 20px;
 }

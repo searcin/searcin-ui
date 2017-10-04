@@ -29,6 +29,7 @@
                                 <th ng-show="uploader.isHTML5">Size</th>
                                 <!--<th ng-show="uploader.isHTML5">Progress</th>-->
                                 <th>Status</th>
+                                
                                 <!--<th>Actions</th>-->
                             </tr>
                         </thead>
@@ -76,9 +77,6 @@
                         </button>>-->
                         <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
                             <span class="glyphicon glyphicon-trash"></span> Remove
-                        </button>
-                        <button type="button" class="btn btn-primary btn-s" ng-click="fileupload.downloadLog()" ng-disabled="!fileupload.logFileName">
-                            <span class="glyphicon glyphicon-download"></span> Download Log File
                         </button>
                         <!--<button type="button" class="btn btn-default btn-s" ng-click="fileupload.nextMenu()" ng-disabled="!fileupload.logFileName">
                             <span class="glyphicon glyphicon-menu-right"></span> Next

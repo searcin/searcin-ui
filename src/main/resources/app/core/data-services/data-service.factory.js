@@ -11,11 +11,112 @@ export function DataServices(HttpService, ApiConfig) {
         getCategories: function () {
             return DI.HttpService.get(ApiConfig.GET_CATEGORIES);
         },
+        getCategory: function (id) {
+            let url = ApiConfig.GET_CATEGORY.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
         saveCategory: function(payload) {
             return DI.HttpService.post(ApiConfig.SAVE_CATEGORY, payload);
         },
         deleteCategory: function(id) {
-            return DI.HttpService.get(ApiConfig.DELETE_CATEGORY + id);
+            let url = ApiConfig.DELETE_CATEGORY.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        getSubCategories: function(id) {
+            let url = ApiConfig.GET_SUB_CATEGORIES.replace("%id%",id);
+            return DI.HttpService.get(url);
+        },
+        getSubCategory: function(id) {
+            let url = ApiConfig.GET_SUB_CATEGORY.replace("%id%",id);
+            return DI.HttpService.get(url);
+        },
+        saveSubCategory: function(id, payload) {
+            let url = ApiConfig.SAVE_SUB_CATEGORY.replace("%id%", id);
+            return DI.HttpService.post(url, payload);
+        },
+        deleteSubCategory: function(id) {
+            let url = ApiConfig.DELETE_SUB_CATEGORY.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        getServices: function() {
+            return DI.HttpService.get(ApiConfig.GET_SERVICES);
+        },
+        getService: function(id) {
+            let url = ApiConfig.GET_SERVICE.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        saveService: function(payload) {
+            return DI.HttpService.post(ApiConfig.SAVE_SERVICE, payload);
+        },
+        deleteService: function(id) {
+            let url = ApiConfig.DELETE_SERVICE.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        getAreas: function() {
+            return DI.HttpService.get(ApiConfig.GET_AREAS);
+        },
+        getArea: function(id) {
+            let url = ApiConfig.GET_AREA.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        saveArea: function(payload) {
+            return DI.HttpService.post(ApiConfig.SAVE_AREA, payload);
+        },
+        deleteArea: function(id) {
+            let url = ApiConfig.DELETE_AREA.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        saveVendor: function(payload) {
+            return DI.HttpService.post(ApiConfig.SAVE_VENDOR, payload);
+        },
+        getVendors: function() {
+            return DI.HttpService.get(ApiConfig.GET_VENDORS);
+        },
+        getVendor: function(id) {
+            let url = ApiConfig.GET_VENDOR.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        deleteVendor: function(id) {
+            let url = ApiConfig.DELETE_VENDOR.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        getClassRange: function(id) {
+            return DI.HttpService.get(ApiConfig.CLASS_RANGE);
+        },
+        getAddress: function(id) {
+            let url = ApiConfig.ADDRESS_BY_VENDOR.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        saveAddress: function(id, payload) {
+            let url = ApiConfig.SAVE_ADDRESS.replace("%id%",id);
+            return DI.HttpService.post(url, payload);
+        },
+        getContact: function(id) {
+            let url = ApiConfig.CONTACT_BY_VENDOR.replace("%id%",id);
+            return DI.HttpService.get(url);
+        },
+        saveContact: function(id, payload) {
+            let url = ApiConfig.SAVE_CONTACT.replace("%id%", id);
+            return DI.HttpService.post(url, payload);
+        },
+        getVendorServices: function(id) {
+            let url = ApiConfig.SERVICES_BY_VENDOR.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        saveVendorServices: function(id, payload) {
+            let url = ApiConfig.SAVE_VENDOR_SERVICES.replace("%id%", id);
+            return DI.HttpService.post(url, payload);
+        },
+        getLogo: function(id) {
+            let url = ApiConfig.GET_LOGO.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        getGallery: function(id) {
+            let url = ApiConfig.GET_GALLERY.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        deleteAsset: function(payload) {
+            return DI.HttpService.post(ApiConfig.DELETE_LOGO, payload);
         }
         // },
         // deleteCategory: adminRequest.deleteCategory(DI),

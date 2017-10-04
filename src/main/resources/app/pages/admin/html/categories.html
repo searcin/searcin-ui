@@ -1,49 +1,93 @@
-<div class="categories" ng-init="admin.getCategories()">
-    <div class="row">
-        <div class="col-sm-12">
-            <uib-tabset active="" type="pills">
-                <uib-tab index="0" heading="Available" ng-click="admin.getCategories()">
-                    <div class="admin-container mt-20">
-                        <table class="table table-striped table-responsive">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="item in admin.data.categories">
-                                    <td>{{item.id}}</td>
-                                    <td>{{item.name}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </uib-tab>
-                <uib-tab index="1" heading="Add">
-                    <div class="admin-container mt-20">
-                        <form class="form" name="categories">
-                            <label>Category Name:</label>
-                            <input type="text" class="form-control" ng-model="admin.data.name" /><br>
-                            <button class="btn btn-primary" type="submit" ng-click="admin.saveCategory()" ng-disabled="!admin.data.name">Add</button>
-                        </form>
-                    </div>
-                </uib-tab>
-                <uib-tab index="2" heading="Edit/Delete" ng-click="admin.getCategories()">
-                    <div class="admin-container mt-20">
-                        <form class="form" name="categories">
-                            <label>Select Category:</label>
-                            <select class="form-control" ng-options="item as item.name for item in admin.data.categories" ng-model="admin.data.category">
-                                </select>
-                                <hr>
-                            <input type="text" class="form-control" ng-model="admin.data.category.name"/><br>
-                            <button class="btn btn-primary" type="submit" ng-click="admin.saveCategory()" ng-disabled="!admin.data.category">Update</button>
-                            <button class="btn btn-primary" type="submit" ng-click="admin.deleteCategory()" ng-disabled="!admin.data.category">Delete</button>
-                        </form>
-                    </div>
-                </uib-tab>
-            </uib-tabset>
-        </div>
+<div class="categories details">
+    <div ng-if="admin.index === 0" ng-init="admin.getCategories()">
+        <button class="btn btn-primary" type="button" ui-sref="admin({index:1})">Add Category</button>
+        <div class="row mt-20">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Category Name</th>
+                                <th>Sub Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in admin.categories">
+                                <td>{{$index+1}}</td>
+                                <td>{{item.name}}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-xs mr-10" ui-sref="admin({index:2,selected:item.id})"><i class="glyphicon glyphicon-th-list" aria-hidden="true"></i>&nbsp;&nbsp;View</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary btn-xs mr-10" ui-sref="admin({index:1,selected:item.id})"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Update</button>
 
+                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.category.id = item.id;admin.deleteCategory();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>&nbsp;&nbsp;Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="admin.index === 1">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 ng-if="admin.selected === ''">Save Category</h2>
+                <h2 ng-if="admin.selected !== ''" ng-init="admin.category.id = admin.selected;admin.getCategory();">Update Category</h2>
+                <form class="form mt-20" name="categories">
+                    <label>Category Name:</label>
+                    <input type="text" class="form-control" ng-model="admin.category.name" /><br>
+                    <button class="btn btn-default" type="button" ui-sref="admin({index:0,selected:''})">Back</button>
+                    <button class="btn btn-primary" type="submit" ng-disabled="!admin.category.name" ng-click="admin.saveCategory()">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div ng-if="admin.index === 2" ng-init="admin.category.id=admin.selected;admin.getSubCategories();">
+        <button class="btn btn-primary" type="button" ui-sref="admin({index:3,selected:admin.selected})">Add SubCategory</button>
+        <button class="btn btn-danger" type="button" ui-sref="admin({index:0})">Back</button>
+        <div class="row mt-20">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in admin.subcategories">
+                                <td>{{$index+1}}</td>
+                                <td>{{item.name}}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-xs mr-10" ui-sref="admin({index:3,selected:admin.selected+','+item.id})"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Update</button>
+
+                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.subcategory.id = item.id;admin.deleteSubCategory();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>&nbsp;&nbsp;Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="admin.index === 3">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 ng-if="admin.selected.indexOf(',') === -1" ng-init="admin.category.id = admin.selected;">Save Sub Category</h2>
+                <h2 ng-if="admin.selected.indexOf(',') !== -1" ng-init="admin.category.id = admin.selected.split(',')[0];admin.subcategory.id=admin.selected.split(',')[1];admin.getSubCategory();">Update SubCategory</h2>
+                <form class="form mt-20" name="categories">
+                    <label>Category Name:</label>
+                    <input type="text" class="form-control" ng-model="admin.subcategory.name" /><br>
+                    <button class="btn btn-default" type="button" ui-sref="admin({index:2,selected:admin.category.id})">Back</button>
+                    <button class="btn btn-primary" type="submit" ng-disabled="!admin.subcategory.name" ng-click="admin.saveSubCategory()">Save</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

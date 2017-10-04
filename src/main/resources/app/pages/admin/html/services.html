@@ -1,9 +1,56 @@
-<div class="categories" ng-init="admin.getServices()">
+<div class="services details">
+    <div ng-if="admin.index === 0" ng-init="admin.getServices()">
+        <button class="btn btn-primary" type="button" ui-sref="admin({index:1})">Add Service</button>
+        <div class="row mt-20">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Service Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in admin.services">
+                                <td>{{$index+1}}</td>
+                                <td>{{item.name}}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-xs mr-10" ui-sref="admin({index:1,selected:item.id})"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Update</button>
+
+                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.service.id = item.id;admin.deleteService();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i>&nbsp;&nbsp;Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="admin.index === 1">
         <div class="row">
             <div class="col-sm-12">
-                <uib-tabset active="">
-                    <uib-tab index="0" heading="Available" ng-click="admin.getServices()">
-                        <div class="admin-container">
+                <h2 ng-if="admin.selected === ''">Save Service</h2>
+                <h2 ng-if="admin.selected !== ''" ng-init="admin.service.id = admin.selected;admin.getService();">Update Area</h2>
+                <form class="form mt-20" name="services">
+                    <label>Service Name:</label>
+                    <input type="text" class="form-control" ng-model="admin.service.name" /><br>
+                    <textarea class="form-control" ng-model="admin.service.description"></textarea><br>
+                    <button class="btn btn-default" type="button" ui-sref="admin({index:0,selected:''})">Back</button>
+                    <button class="btn btn-primary" type="submit" ng-disabled="!admin.service.name" ng-click="admin.saveService()">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- <div class="categories" ng-init="admin.getServices()">
+        <div class="row">
+            <div class="col-sm-12">
+                <uib-tabset active="admin.index" type="pills">
+                    <uib-tab index="0" heading="Available" ui-sref="admin({index:'0'})">
+                        <div class="admin-container mt-20">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -13,8 +60,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="item in admin.data.services">
-                                        <td>{{item.id}}</td>
+                                    <tr ng-repeat="item in admin.services">
+                                        <td>{{$index + 1}}</td>
                                         <td>{{item.name}}</td>
                                         <td>{{item.description}}</td>
                                     </tr>
@@ -22,30 +69,30 @@
                             </table>
                         </div>
                     </uib-tab>
-                    <uib-tab index="1" heading="Add" ng-click="admin.getServices()">
-                        <div class="admin-container">
+                    <uib-tab index="1" heading="Add" ui-sref="admin({index:'1'})">
+                        <div class="admin-container mt-20">
                             <form class="form" name="categories">
                                 <label>Service Name:</label>
-                                <input type="text" class="form-control" ng-model="admin.data.name" />
+                                <input type="text" class="form-control" ng-model="admin.service.name" />
                                 <hr>
                                 <label>Service Description:</label>
-                                <textarea class="form-control" ng-model="admin.data.description"></textarea><br>
-                                <button class="btn btn-primary" type="submit" ng-click="admin.addService()" ng-disabled="!admin.data.name&&!admin.data.description">Add</button>
+                                <textarea class="form-control" ng-model="admin.service.description"></textarea><br>
+                                <button class="btn btn-primary" type="submit" ng-click="admin.saveService()" ng-disabled="!admin.service.name&&!admin.service.description">Add</button>
                             </form>
                         </div>
                     </uib-tab>
-                    <uib-tab index="2" heading="Edit/Delete" ng-click="admin.getServices()">
-                        <div class="admin-container">
+                    <uib-tab index="2" heading="Edit/Delete" ui-sref="admin({index:'2'})">
+                        <div class="admin-container mt-20">
                             <form class="form" name="services">
                                 <label>Select Service:</label>
-                                <select class="form-control" ng-options="item as item.name for item in admin.data.services" ng-model="admin.data.service">
+                                <select class="form-control" ng-options="item as item.name for item in admin.services" ng-model="admin.service">
                                     </select>
                                     <hr>
-                                <input type="text" class="form-control" ng-model="admin.data.service.name"/><br>
-                                <textarea class="form-control" ng-model="admin.data.service.description"></textarea>
+                                <input type="text" class="form-control" ng-model="admin.service.name"/><br>
+                                <textarea class="form-control" ng-model="admin.service.description"></textarea>
                                 <hr>
-                                <button class="btn btn-primary" type="submit" ng-click="admin.updateService()" ng-disabled="!admin.data.service">Update</button>
-                                <button class="btn btn-primary" type="submit" ng-click="admin.deleteService()" ng-disabled="!admin.data.service">Delete</button>
+                                <button class="btn btn-primary" type="submit" ng-click="admin.saveService()" ng-disabled="!admin.service">Update</button>
+                                <button class="btn btn-primary" type="submit" ng-click="admin.deleteService()" ng-disabled="!admin.service">Delete</button>
                             </form>
                         </div>
                     </uib-tab>
@@ -53,4 +100,4 @@
             </div>
     
         </div>
-    </div>
+    </div> -->
