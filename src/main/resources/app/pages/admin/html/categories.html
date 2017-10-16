@@ -3,7 +3,7 @@
         <button class="btn btn-primary" type="button" ui-sref="admin({index:1})">Add Category</button>
         <div class="row mt-20">
             <div class="col-sm-12">
-                <div class="table-responsive">
+                <div class="table-responsive" ng-if="admin.categories.length > 0">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -14,7 +14,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in admin.categories">
+                            <tr ng-repeat="item in admin.categories | orderBy: 'name'">
                                 <td>{{$index+1}}</td>
                                 <td>{{item.name}}</td>
                                 <td>
@@ -51,17 +51,17 @@
         <button class="btn btn-danger" type="button" ui-sref="admin({index:0})">Back</button>
         <div class="row mt-20">
             <div class="col-sm-12">
-                <div class="table-responsive">
+                <div class="table-responsive" ng-if="admin.subcategories.length > 0">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Name</th>
+                                <th>SubCategory Name</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in admin.subcategories">
+                            <tr ng-repeat="item in admin.subcategories | orderBy: 'name'">
                                 <td>{{$index+1}}</td>
                                 <td>{{item.name}}</td>
                                 <td>

@@ -13,7 +13,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in admin.vendors">
+                            <tr ng-repeat="item in admin.vendors | orderBy:'name'">
                                 <td>{{$index + 1}}</td>
                                 <td>{{item.name}}</td>
                                 <td>
