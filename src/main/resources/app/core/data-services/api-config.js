@@ -22,6 +22,7 @@ export let ApiConfig = {
     'DELETE_AREA': "/admin/area/%id%/delete",
     'GET_VENDORS': "/admin/vendors",
     'GET_VENDOR': "/admin/vendor/%id%",
+    'GET_DETAIL': "/admin/vendor/%id%/detail",
     'SAVE_VENDOR':  "/admin/vendor/save",
     'DELETE_VENDOR': "/admin/vendor/%id%/delete",
     'SAVE_ADDRESS': "/admin/vendor/%id%/address/save",

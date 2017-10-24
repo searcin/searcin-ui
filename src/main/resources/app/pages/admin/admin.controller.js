@@ -1,9 +1,9 @@
 
 export class AdminController {
-	constructor($scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q, ApiConfig) {
+	constructor($scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q, ApiConfig, $uibModal) {
 		'ngInject';
 		let vm = this;
-		vm.DI = () => ({ $scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q, ApiConfig });
+		vm.DI = () => ({ $scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q, ApiConfig, $uibModal });
 		$scope.$emit("initAdminService");
 		vm.menu = AdminConstants.menu;
 		vm.active = $stateParams.page;
@@ -13,6 +13,8 @@ export class AdminController {
 
 
 		vm.selected = $stateParams.selected;
+
+		$scope.emailPattern = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
 	}
 
 	saveCategory() {
@@ -228,9 +230,10 @@ export class AdminController {
 		let vm = this;
 		let { DataServices, $state } = vm.DI();
 		DataServices.saveVendor(vm.vendor).then(function (response) {
-			if(response.status === 200) {
+			if (response.status === 200) {
 				alert("success");
 				vm.vendor = response.data;
+				$state.go("admin", { index: 2, selected: vm.vendor.id });
 			}
 		});
 	}
@@ -261,9 +264,57 @@ export class AdminController {
 
 	saveAddress() {
 		let vm = this;
-		let { DataServices, $q } = vm.DI();
+		let { DataServices, $q, $state } = vm.DI();
 		DataServices.saveAddress(vm.vendor.id, vm.address).then(function (response) {
-			alert("success");
+			if (response.status === 200) {
+				alert("success");
+				$state.go("admin", { index: 3 });
+			}
+		});
+	}
+
+	getDetail(id) {
+		let vm = this;
+		let { DataServices, $state } = vm.DI();
+		DataServices.getDetail(id).then(function (response) {
+			if (response.status === 200) {
+				vm.openDetail(response.data);
+			}
+		});
+	}
+
+	openImage(title, src) {
+		let vm = this;
+		let { $uibModal, $uibModalInstance } = vm.DI();
+		var modalInstance = $uibModal.open({
+			templateUrl: 'pages/admin/modal/image-popup.html',
+			controller: "ModalInstanceCtrl",
+			controllerAs: 'detail',
+			resolve: {
+				params: {
+					title: title,
+					src:  src
+				}
+			},
+			size: "lg",
+			backdrop: "static"
+		});
+	}
+
+	openDetail(data) {
+		let vm = this;
+		let { $uibModal, $uibModalInstance } = vm.DI();
+		var modalInstance = $uibModal.open({
+			templateUrl: 'pages/admin/modal/vendor-detail.html',
+			controller: "ModalInstanceCtrl",
+			controllerAs: 'detail',
+			resolve: {
+				params: function () {
+					return data;
+				}
+			},
+			size: "lg",
+			backdrop: "static"
 		});
 	}
 
@@ -287,10 +338,12 @@ export class AdminController {
 
 	saveContact() {
 		let vm = this;
-		let { DataServices, $q } = vm.DI();
+		let { DataServices, $q, $state } = vm.DI();
 		DataServices.saveContact(vm.vendor.id, vm.contact).then(function (response) {
-			if (response.status === 200)
+			if (response.status === 200) {
 				alert("success");
+				$state.go("admin", { index: 4 });
+			}
 		});
 	}
 
@@ -309,6 +362,7 @@ export class AdminController {
 							if (selected.indexOf(item.id) !== -1) {
 								item.selected = true;
 								vm.selectedServices.push(item.name);
+								vm.selectedServiceId.push(item.id);
 							}
 							else {
 								item.selected = false;
@@ -336,10 +390,11 @@ export class AdminController {
 
 	saveVendorServices() {
 		let vm = this;
-		let { DataServices } = vm.DI();
+		let { DataServices, $state } = vm.DI();
 		DataServices.saveVendorServices(vm.vendor.id, vm.selectedServiceId).then(function (response) {
 			if (response.status === 200) {
 				alert("success");
+				$state.go("admin", { index: 5 });
 			}
 		});
 	}
@@ -347,8 +402,8 @@ export class AdminController {
 	getLogo() {
 		let vm = this;
 		let { DataServices } = vm.DI();
-		DataServices.getLogo(vm.vendor.id).then(function(response) {
-			if(response.status === 200) {
+		DataServices.getLogo(vm.vendor.id).then(function (response) {
+			if (response.status === 200) {
 				vm.logo = response.data;
 			}
 		});
@@ -357,14 +412,14 @@ export class AdminController {
 	setLogoUrl() {
 		let vm = this;
 		let { ApiConfig } = vm.DI();
-		vm.logoUrl = ApiConfig.BASEURL + ApiConfig.WEBURL + ApiConfig.UPLOAD_LOGO.replace("%id%",vm.vendor.id);
+		vm.logoUrl = ApiConfig.BASEURL + ApiConfig.WEBURL + ApiConfig.UPLOAD_LOGO.replace("%id%", vm.vendor.id);
 	}
 
 	deleteLogo(key) {
 		let vm = this;
 		let { DataServices } = vm.DI();
-		DataServices.deleteAsset({key:key}).then(function(response) {
-			if(response.status === 200) {
+		DataServices.deleteAsset({ key: key }).then(function (response) {
+			if (response.status === 200) {
 				alert("deleted");
 				vm.getLogo();
 			}
@@ -374,8 +429,8 @@ export class AdminController {
 	deleteGallery(key) {
 		let vm = this;
 		let { DataServices } = vm.DI();
-		DataServices.deleteAsset({key:key}).then(function(response) {
-			if(response.status === 200) {
+		DataServices.deleteAsset({ key: key }).then(function (response) {
+			if (response.status === 200) {
 				alert("deleted");
 				vm.getGallery();
 			}
@@ -385,8 +440,8 @@ export class AdminController {
 	getGallery() {
 		let vm = this;
 		let { DataServices } = vm.DI();
-		DataServices.getGallery(vm.vendor.id).then(function(response) {
-			if(response.status === 200) {
+		DataServices.getGallery(vm.vendor.id).then(function (response) {
+			if (response.status === 200) {
 				vm.gallery = response.data;
 			}
 		});
@@ -395,8 +450,8 @@ export class AdminController {
 	setGalleryUrl() {
 		let vm = this;
 		let { ApiConfig } = vm.DI();
-		vm.galleryUrl = ApiConfig.BASEURL + ApiConfig.WEBURL + ApiConfig.UPLOAD_GALLERY.replace("%id%",vm.vendor.id);
+		vm.galleryUrl = ApiConfig.BASEURL + ApiConfig.WEBURL + ApiConfig.UPLOAD_GALLERY.replace("%id%", vm.vendor.id);
 	}
 
-	
+
 }

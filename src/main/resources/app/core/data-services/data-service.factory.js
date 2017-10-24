@@ -72,6 +72,10 @@ export function DataServices(HttpService, ApiConfig) {
         getVendors: function() {
             return DI.HttpService.get(ApiConfig.GET_VENDORS);
         },
+        getDetail: function(id) {
+            let url = ApiConfig.GET_DETAIL.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
         getVendor: function(id) {
             let url = ApiConfig.GET_VENDOR.replace("%id%", id);
             return DI.HttpService.get(url);
