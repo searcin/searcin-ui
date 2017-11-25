@@ -8,6 +8,7 @@ import { AppRouter } from "./app.route";
 import { AppConfig } from "./app.config";
 import { AppRun } from "./app.run";
 import { AppConstants } from './app.constants';
+import { CommonService } from "./common.service";
 
 
 angular.module("searcin", ["ui.router",
@@ -18,10 +19,12 @@ angular.module("searcin", ["ui.router",
 	"searcin.home",
 	"searcin.admin",
 	"searcin.components",
-	"searcin.common"
+	"searcin.common",
+	"searcin.login"
 ])
 	.constant("AppConstants", AppConstants)
-	.controller("AppController", AppController)
+	.controller("AppController", AppController)	
+	.service("CommonService", CommonService)
 	.config(AppRouter)
 	.config(AppConfig)
 	.run(AppRun);

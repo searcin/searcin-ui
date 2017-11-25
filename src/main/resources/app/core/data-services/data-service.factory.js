@@ -8,8 +8,21 @@ export function DataServices(HttpService, ApiConfig) {
         ApiConfig
     };
     return {
-        getCategories: function () {
-            return DI.HttpService.get(ApiConfig.GET_CATEGORIES);
+        info: function() {
+            return DI.HttpService.get(ApiConfig.INFO);
+        },
+        login: function(payload) {
+            let url = ApiConfig.LOGIN + "?username=" + payload.username + "&password=" + payload.password;
+            return DI.HttpService.get(url);
+        },
+        details: function(username) {
+            let url = ApiConfig.DETAILS.replace("%uname%", username);
+            return DI.HttpService.get(url);
+        },
+        getCategories: function (page, size) {
+            let url = ApiConfig.GET_CATEGORIES.replace("%page%", page-1);
+            url = url.replace("%size%", size);
+            return DI.HttpService.get(url);
         },
         getCategory: function (id) {
             let url = ApiConfig.GET_CATEGORY.replace("%id%", id);

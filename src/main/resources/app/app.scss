@@ -10,15 +10,21 @@ body {
     background: $body-background;
 }
 
+.custom-container {
+    padding: 20px;
+}
 
 .app {
     width: 100%;
     .header {
         width: 100%;
         background: $white-color;
-        height: $header-height;
+        padding-bottom: 20px;
         .logo {
             margin-top: 20px;
+        }
+        .welcome-text {
+            font-size: 12px;
         }
     }
     .content {
@@ -27,5 +33,6 @@ body {
             padding: 200px 0;
         }
     }
+    
 }
 

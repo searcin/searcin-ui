@@ -1,19 +1,17 @@
 
 export class AdminController {
-	constructor($scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q, ApiConfig, $uibModal) {
+	constructor($scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q, ApiConfig, $uibModal, AuthConfig, CommonService) {
 		'ngInject';
 		let vm = this;
-		vm.DI = () => ({ $scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q, ApiConfig, $uibModal });
+		vm.DI = () => ({ $scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q, ApiConfig, $uibModal, AuthConfig, CommonService });
 		$scope.$emit("initAdminService");
 		vm.menu = AdminConstants.menu;
 		vm.active = $stateParams.page;
 		vm.index = parseInt($stateParams.index);
-		vm.url = "pages/admin/html/" + $stateParams.page + ".html";
+		vm.url = "pages/admin/html/" + vm.active + ".html";
 		vm.data = {};
-
-
+		vm.current = AuthConfig.USER.get();
 		vm.selected = $stateParams.selected;
-
 		$scope.emailPattern = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
 	}
 
@@ -25,6 +23,10 @@ export class AdminController {
 				alert("success");
 				if (vm.selected === '') {
 					vm.category = {};
+				}
+				else {
+					vm.category = response.data;
+					vm.user = vm.current;
 				}
 			}
 		});
@@ -43,7 +45,7 @@ export class AdminController {
 	getCategories() {
 		let vm = this;
 		let { DataServices } = vm.DI();
-		DataServices.getCategories().then(function (response) {
+		DataServices.getCategories(vm.page, vm.size).then(function (response) {
 			if (response.status === 200) {
 				vm.categories = response.data;
 			}
@@ -98,6 +100,10 @@ export class AdminController {
 				if (vm.selected.indexOf(",") === -1) {
 					vm.subcategory = {};
 				}
+				else {
+					vm.subcategory = response.data;
+					vm.user = vm.current;
+				}
 			}
 		});
 	}
@@ -145,6 +151,10 @@ export class AdminController {
 				if (vm.selected === '') {
 					vm.service = {};
 				}
+				else {
+					vm.service = response.data;
+					vm.user = vm.current;
+				}
 			}
 		});
 	}
@@ -188,6 +198,10 @@ export class AdminController {
 				alert("success");
 				if (vm.selected === '') {
 					vm.area = {};
+				}
+				else {
+					vm.area = response.data;
+					vm.user = vm.current;
 				}
 			}
 		});
@@ -233,6 +247,7 @@ export class AdminController {
 			if (response.status === 200) {
 				alert("success");
 				vm.vendor = response.data;
+				vm.user = vm.current;
 				$state.go("admin", { index: 2, selected: vm.vendor.id });
 			}
 		});
@@ -268,6 +283,8 @@ export class AdminController {
 		DataServices.saveAddress(vm.vendor.id, vm.address).then(function (response) {
 			if (response.status === 200) {
 				alert("success");
+				vm.address = response.data;
+				vm.user = vm.current;
 				$state.go("admin", { index: 3 });
 			}
 		});
@@ -293,7 +310,7 @@ export class AdminController {
 			resolve: {
 				params: {
 					title: title,
-					src:  src
+					src: src
 				}
 			},
 			size: "lg",
@@ -303,7 +320,8 @@ export class AdminController {
 
 	openDetail(data) {
 		let vm = this;
-		let { $uibModal, $uibModalInstance } = vm.DI();
+		let { $uibModal, $uibModalInstance, CommonService } = vm.DI();
+		data.host = CommonService.info.assetsHost;
 		var modalInstance = $uibModal.open({
 			templateUrl: 'pages/admin/modal/vendor-detail.html',
 			controller: "ModalInstanceCtrl",
@@ -347,6 +365,17 @@ export class AdminController {
 		});
 	}
 
+	setServicesSelected() {
+		let vm = this;
+		angular.forEach(vm.services, function (i, $index) {
+			angular.forEach(vm.vendor.services, function (j, $index) {
+				if (i.id === j.id) {
+					i.selected = true;
+				}
+			});
+		});
+	}
+
 	getVendorServices() {
 		let vm = this;
 		let { DataServices } = vm.DI();
@@ -377,14 +406,15 @@ export class AdminController {
 
 	addVendorService(item) {
 		let vm = this;
-
 		if (item.selected) {
-			vm.selectedServices.push(item.name);
-			vm.selectedServiceId.push(item.id);
+			vm.vendor.services.push(item);
 		}
 		else {
-			vm.selectedServices.splice(vm.selectedServices.indexOf(item.name), 1);
-			vm.selectedServiceId.splice(vm.selectedServiceId.indexOf(item.id), 1);
+			angular.forEach(vm.vendor.services, function (service, $index) {
+				if (item.id === service.id) {
+					vm.vendor.services.splice($index, 1);
+				}
+			});
 		}
 	}
 
@@ -401,10 +431,12 @@ export class AdminController {
 
 	getLogo() {
 		let vm = this;
-		let { DataServices } = vm.DI();
+		let { DataServices, CommonService } = vm.DI();
+		vm.logo = {};
+		vm.logo.host = CommonService.info.assetsHost;
 		DataServices.getLogo(vm.vendor.id).then(function (response) {
 			if (response.status === 200) {
-				vm.logo = response.data;
+				vm.logo.images = response.data;
 			}
 		});
 	}
@@ -439,10 +471,12 @@ export class AdminController {
 
 	getGallery() {
 		let vm = this;
-		let { DataServices } = vm.DI();
+		let { DataServices, CommonService } = vm.DI();
+		vm.gallery = {};
+		vm.gallery.host = CommonService.info.assetsHost;
 		DataServices.getGallery(vm.vendor.id).then(function (response) {
 			if (response.status === 200) {
-				vm.gallery = response.data;
+				vm.gallery.images = response.data;
 			}
 		});
 	}
@@ -453,5 +487,26 @@ export class AdminController {
 		vm.galleryUrl = ApiConfig.BASEURL + ApiConfig.WEBURL + ApiConfig.UPLOAD_GALLERY.replace("%id%", vm.vendor.id);
 	}
 
+	getByUsername() {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		DataServices.details(vm.user.username).then(function (params) {
+			if (params.status === 200) {
+				vm.user = params.data;
+			}
+		});
+	}
 
+	getLocation() {
+		let vm = this;
+		if(navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				vm.address.lat = angular.copy(position.coords.latitude);
+				vm.address.lng = angular.copy(position.coords.longitude);
+			});
+		}
+		else {
+			alert("Your browser didn't support geolocation!");
+		}
+	}
 }

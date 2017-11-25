@@ -50,6 +50,12 @@
                 </form>
             </div>
         </div>
+
+        <div class="row mt-20" ng-if="admin.selected !== ''">
+            <div class="col-sm-12">
+                <p class="mt-5" ng-if="admin.service.updatedOn && admin.service.updatedBy" ng-init="admin.user.username = admin.service.updatedBy;admin.getByUsername()">Last updated on <b>{{admin.service.updatedOn|date:'MM/dd/yyyy h:mma'}}</b> by <b>{{(admin.user.name === admin.current.name)?'You':admin.user.name;}}</b></p>
+            </div>
+        </div>
     </div>
 
 </div>

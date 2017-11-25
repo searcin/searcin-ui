@@ -1,12 +1,13 @@
 export class FileUploadController {
-    constructor($scope, $rootScope, $state, $timeout, FileUploader) {
+    constructor($scope, $rootScope, $state, $timeout, FileUploader, AuthConfig) {
         'ngInject';
         let vm = this;
         vm.DI = () => ({
-            $scope, $rootScope, $state, $timeout, FileUploader
+            $scope, $rootScope, $state, $timeout, FileUploader, AuthConfig
         });
         let uploader = $scope.uploader = new FileUploader({
-            url: vm.apiUrl
+            url: vm.apiUrl,
+            headers: {Authorization:AuthConfig.USER.get().token}
         });
         
         $scope.$watch(() => vm.apiUrl, function (nv, ov) {
