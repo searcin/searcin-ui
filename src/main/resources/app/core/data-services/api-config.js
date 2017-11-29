@@ -37,8 +37,8 @@ export let ApiConfig = {
     'CLASS_RANGE': "/admin/classrange",
     'GET_LOGO': "/admin/vendor/%id%/logo",
     'UPLOAD_LOGO': "/admin/vendor/%id%/logo/upload",
-    'DELETE_LOGO': "/admin/vendor/asset/delete",
+    'DELETE_LOGO': "/admin/vendor/%id%/logo/delete?key=%key%",
     'GET_GALLERY': "/admin/vendor/%id%/gallery",
     'UPLOAD_GALLERY': "/admin/vendor/%id%/gallery/upload",
-    'DELETE_GALLERY': "/admin/vendor/asset/delete"
+    'DELETE_GALLERY': "/admin/vendor/%id%/gallery/delete?key=%key%"
 };

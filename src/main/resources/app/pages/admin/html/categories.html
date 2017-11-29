@@ -20,7 +20,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in admin.categories">
+                            <tr ng-repeat="item in admin.categories | orderBy:'name'">
                                 <td>{{$index+1}}</td>
                                 <td>{{item.name}}</td>
                                 <td>
@@ -83,7 +83,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in admin.subcategories.content">
+                            <tr ng-repeat="item in admin.subcategories | orderBy:'name'">
                                 <td>{{$index+1}}</td>
                                 <td>{{item.name}}</td>
                                 <td>

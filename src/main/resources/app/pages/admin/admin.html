@@ -1,5 +1,5 @@
 <div class="admin">
-  <nav class="navbar navbar-inverse mt-20">
+  <nav class="navbar navbar-default mt-20">
     <div class="container-fluid">
       <ul class="nav navbar-nav">
         <li ng-repeat="item in admin.menu" ng-class="(admin.active === item.value)?'active':''"><a ui-sref="admin({page:item.value,index:'0',selected:''})">{{item.name}}</a></li>

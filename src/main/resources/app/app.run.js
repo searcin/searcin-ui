@@ -6,7 +6,7 @@ export function AppRun($rootScope, $http, ApiConfig, AuthConfig, $location) {
         AuthConfig.USER.set(params);
     });
     $rootScope.$on('logout', (event, params) => {
-        $http.defaults.headers.common.Authorization = "";
+        $http.defaults.headers.common.Authorization = "";        
         AuthConfig.USER.clear();
     });
 

@@ -132,8 +132,15 @@ export function DataServices(HttpService, ApiConfig) {
             let url = ApiConfig.GET_GALLERY.replace("%id%", id);
             return DI.HttpService.get(url);
         },
-        deleteAsset: function(payload) {
-            return DI.HttpService.post(ApiConfig.DELETE_LOGO, payload);
+        deleteGallery: function(id, key) {
+            let url = ApiConfig.DELETE_GALLERY.replace("%id%", id);
+            url = url.replace("%key%", key);
+            return DI.HttpService.get(url);
+        },
+        deleteLogo: function(id, key) {
+            let url = ApiConfig.DELETE_LOGO.replace("%id%", id);
+            url = url.replace("%key%", key);
+            return DI.HttpService.get(url);
         }
         // },
         // deleteCategory: adminRequest.deleteCategory(DI),

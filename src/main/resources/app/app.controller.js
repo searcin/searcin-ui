@@ -5,6 +5,7 @@ export class AppController {
 		let vm = this;
 		vm.DI = () => ({$scope, $rootScope, $state, $location, $uibModal, AuthConfig, CommonService});
 		vm.user = AuthConfig.USER.get();
+		
 	}
 
 	login() {
@@ -32,7 +33,8 @@ export class AppController {
 		let vm = this;
 		let { $rootScope, $state } = vm.DI();
 		vm.user = null;
-		$state.go("home");
+		
 		$rootScope.$emit("logout");
+		$state.go("home");
 	}
 }

@@ -4,6 +4,13 @@ export class AdminController {
 		'ngInject';
 		let vm = this;
 		vm.DI = () => ({ $scope, $rootScope, $state, $stateParams, $location, $translate, AdminConstants, DataServices, $q, ApiConfig, $uibModal, AuthConfig, CommonService });
+
+		// check the authority
+		vm.user = AuthConfig.USER.get();
+		if (vm.user == null || (vm.user != null && vm.user.roles.indexOf("ROLE_ADMIN") == -1))
+			$state.go("home");
+
+
 		$scope.$emit("initAdminService");
 		vm.menu = AdminConstants.menu;
 		vm.active = $stateParams.page;
@@ -13,6 +20,8 @@ export class AdminController {
 		vm.current = AuthConfig.USER.get();
 		vm.selected = $stateParams.selected;
 		$scope.emailPattern = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
+
+
 	}
 
 	saveCategory() {
@@ -243,6 +252,23 @@ export class AdminController {
 	saveVendor() {
 		let vm = this;
 		let { DataServices, $state } = vm.DI();
+		angular.forEach(vm.categories, function (item, $index) {
+			if (vm.vendor.category.id === item.id) {
+				vm.vendor.category = item;
+			}
+		});
+
+		angular.forEach(vm.subcategories, function (item, $index) {
+			if (vm.vendor.subCategory.id === item.id) {
+				vm.vendor.subCategory = item;
+			}
+		});
+
+		angular.forEach(vm.classRanges, function (item, $index) {
+			if (vm.vendor.classRange.id === item.id) {
+				vm.vendor.classRange = item;
+			}
+		});
 		DataServices.saveVendor(vm.vendor).then(function (response) {
 			if (response.status === 200) {
 				alert("success");
@@ -450,7 +476,7 @@ export class AdminController {
 	deleteLogo(key) {
 		let vm = this;
 		let { DataServices } = vm.DI();
-		DataServices.deleteAsset({ key: key }).then(function (response) {
+		DataServices.deleteLogo(vm.vendor.id, key).then(function (response) {
 			if (response.status === 200) {
 				alert("deleted");
 				vm.getLogo();
@@ -461,7 +487,7 @@ export class AdminController {
 	deleteGallery(key) {
 		let vm = this;
 		let { DataServices } = vm.DI();
-		DataServices.deleteAsset({ key: key }).then(function (response) {
+		DataServices.deleteGallery(vm.vendor.id, key).then(function (response) {
 			if (response.status === 200) {
 				alert("deleted");
 				vm.getGallery();
@@ -499,10 +525,12 @@ export class AdminController {
 
 	getLocation() {
 		let vm = this;
-		if(navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				vm.address.lat = angular.copy(position.coords.latitude);
-				vm.address.lng = angular.copy(position.coords.longitude);
+		let { $scope } = vm.DI();
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function (position) {
+				vm.address.lat = position.coords.latitude;
+				vm.address.lng = position.coords.longitude;
+				$scope.$apply();
 			});
 		}
 		else {
