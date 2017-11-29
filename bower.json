@@ -1,0 +1,42 @@
+{
+  "name": "searcin-ui",
+  "description": "search website",
+  "main": "gulpfile.js",
+  "version": "1.0.0",
+  "authors": [
+    "Gautham Manivannan"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "tire"
+  ],
+  "homepage": "index.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.2",
+    "angular-ui-router": "^0.4.2",
+    "angular-bootstrap": "^2.5.0",
+    "bootstrap": "^3.3.7",
+    "bootstrap-sass": "~3.3.5",
+    "angular-translate": "^2.15.1",
+    "angular-filter": "^0.5.8",
+    "angular-sanitize": "^1.6.2",
+    "es6-promise": "^4.0.3",    
+    "angular-file-upload":"^2.5.0"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/css/bootstrap.css"
+      ]
+    }
+  },
+  "devDependencies": {}
+}
