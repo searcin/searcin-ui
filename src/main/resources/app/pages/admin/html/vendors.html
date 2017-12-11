@@ -54,7 +54,7 @@
         <hr>
         <div class="row">
             <div class="col-sm-4">
-                <label>Name:</label>
+                <label>Company Name:</label>
             </div>
             <div class="col-sm-8">
                 <input type="text" ng-model="admin.vendor.name" class="form-control" />
@@ -363,7 +363,7 @@
     </div>
 
     <div ng-if="admin.index === 5" ng-init="admin.vendor.id=admin.selected;admin.getGallery();">
-        <div ng-if="admin.gallery.images.length < 5" ng-init="admin.setGalleryUrl()">
+        <div>
             <div class="row mb-20">
                 <div class="col-sm-12">
                     <h4>
@@ -374,8 +374,10 @@
                 </div>
             </div>
             <hr>
+            <div ng-if="admin.gallery.images.length < 5" ng-init="admin.setGalleryUrl()">
             <file-upload api-url="admin.galleryUrl" on-complete="admin.getGallery()"></file-upload>
             <hr>
+            </div>
         </div>
         <div ng-if="admin.gallery.images.length > 0">
             <div class="row">

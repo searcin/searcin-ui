@@ -18,21 +18,64 @@ body {
     width: 100%;
     .header {
         width: 100%;
-        background: $white-color;
-        padding-bottom: 10px;
-        .logo {
-            margin-top: 10px;
+        display: inline-block;
+        .menu {
+            > a {
+                > i{
+                    font-size: 20px;
+                    color: #555;
+                }
+            }
         }
-        .welcome-text {
-            font-size: 12px;
+        .profile-web {
+            display: block;
         }
-    }
-    .content {
-        h1 {
-            text-align: center;
-            padding: 200px 0;
+        .profile-mobile {
+            display: none;
         }
-    }
-    
+        .profile {
+            width: 100%;
+
+            .profile-icon {
+                display: inline-block;
+                width: 30px;
+                vertical-align: middle;
+            }
+            .profile-menu {
+                display: inline-block;
+                width: calc(100% - 30px);
+                vertical-align: middle;
+                > a {
+                    color: #555;
+                    font-size: 12px;
+                    float: right;
+                    margin: 7px 15px 0 0;
+                }
+                > p {
+                    cursor: pointer;
+                    float: right;
+                    font-size: 12px;
+                    margin: 5px 0 0 0;
+                    i {
+                        font-size: 11px;
+                        margin: 5px;
+                    }
+                }
+            }
+        }
+    }    
 }
 
+
+@media only screen and (min-device-width: 359px) and (max-device-width: 667px){
+    .app {
+        .header {
+            .profile-web {
+                display: none;
+            }
+            .profile-mobile {
+                display: block;
+            }
+        }
+    }
+}

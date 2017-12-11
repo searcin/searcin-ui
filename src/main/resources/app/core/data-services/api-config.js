@@ -40,5 +40,6 @@ export let ApiConfig = {
     'DELETE_LOGO': "/admin/vendor/%id%/logo/delete?key=%key%",
     'GET_GALLERY': "/admin/vendor/%id%/gallery",
     'UPLOAD_GALLERY': "/admin/vendor/%id%/gallery/upload",
-    'DELETE_GALLERY': "/admin/vendor/%id%/gallery/delete?key=%key%"
+    'DELETE_GALLERY': "/admin/vendor/%id%/gallery/delete?key=%key%",
+    'SUGGEST': "/search/suggest?qs=%key%"
 };

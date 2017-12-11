@@ -8,14 +8,24 @@ export class HomeService {
             $rootScope,
             $filter
         });
+        vm._key = null;
     }
 
-    get info() {
-        return this._info;
+    get key() {
+        return this._key;
     }
 
-    set info(info) {
-        this._info = info;
+    set key(key) {
+        this._key = key;
     }
 
+    suggest() {
+        let vm = this;
+        let { DataServices, $q } = vm.DI();
+        return $q(function(resolve, reject) {
+            DataServices.suggest(vm.key).then(function(response) {
+                resolve(response.data);
+            });
+        });        
+    }
 }

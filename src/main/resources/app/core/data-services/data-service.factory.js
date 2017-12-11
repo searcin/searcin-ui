@@ -141,6 +141,10 @@ export function DataServices(HttpService, ApiConfig) {
             let url = ApiConfig.DELETE_LOGO.replace("%id%", id);
             url = url.replace("%key%", key);
             return DI.HttpService.get(url);
+        },
+        suggest: function(key) {
+            let url = ApiConfig.SUGGEST.replace("%key%", key);
+            return DI.HttpService.get(url);
         }
         // },
         // deleteCategory: adminRequest.deleteCategory(DI),

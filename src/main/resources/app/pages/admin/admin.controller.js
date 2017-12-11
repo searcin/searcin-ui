@@ -10,7 +10,7 @@ export class AdminController {
 		if (vm.user == null || (vm.user != null && vm.user.roles.indexOf("ROLE_ADMIN") == -1))
 			$state.go("home");
 
-
+		$scope.flag = true;
 		$scope.$emit("initAdminService");
 		vm.menu = AdminConstants.menu;
 		vm.active = $stateParams.page;
@@ -26,19 +26,23 @@ export class AdminController {
 
 	saveCategory() {
 		let vm = this;
-		let { DataServices, $state } = vm.DI();
-		DataServices.saveCategory(vm.category).then(function (response) {
-			if (response.status === 200) {
-				alert("success");
-				if (vm.selected === '') {
-					vm.category = {};
+		let { DataServices, $state, $scope } = vm.DI();
+		if ($scope.flag) {
+			$scope.flag = false;
+			DataServices.saveCategory(vm.category).then(function (response) {
+				$scope.flag = true;
+				if (response.status === 200) {
+					alert("success");
+					if (vm.selected === '') {
+						vm.category = {};
+					}
+					else {
+						vm.category = response.data;
+						vm.user = vm.current;
+					}
 				}
-				else {
-					vm.category = response.data;
-					vm.user = vm.current;
-				}
-			}
-		});
+			});
+		}
 	}
 
 	getCategory() {
@@ -64,16 +68,18 @@ export class AdminController {
 	deleteCategory() {
 		let vm = this;
 		let { DataServices } = vm.DI();
-		DataServices.deleteCategory(vm.category.id).then(function (response) {
-			if (response.status === 200) {
-				angular.forEach(vm.categories, function (item, $index) {
-					if (item.id === vm.category.id) {
-						vm.categories.splice($index, 1);
-					}
-				});
-				alert("deleted");
-			}
-		});
+		if (confirm("Are you sure want to delete?")) {
+			DataServices.deleteCategory(vm.category.id).then(function (response) {
+				if (response.status === 200) {
+					angular.forEach(vm.categories, function (item, $index) {
+						if (item.id === vm.category.id) {
+							vm.categories.splice($index, 1);
+						}
+					});
+					alert("deleted");
+				}
+			});
+		}
 	}
 
 
@@ -102,34 +108,40 @@ export class AdminController {
 
 	saveSubCategory() {
 		let vm = this;
-		let { DataServices } = vm.DI();
-		DataServices.saveSubCategory(vm.category.id, vm.subcategory).then(function (response) {
-			if (response.status === 200) {
-				alert("success");
-				if (vm.selected.indexOf(",") === -1) {
-					vm.subcategory = {};
+		let { DataServices, $scope } = vm.DI();
+		if ($scope.flag) {
+			$scope.flag = false;
+			DataServices.saveSubCategory(vm.category.id, vm.subcategory).then(function (response) {
+				$scope.flag = true;
+				if (response.status === 200) {
+					alert("success");
+					if (vm.selected.indexOf(",") === -1) {
+						vm.subcategory = {};
+					}
+					else {
+						vm.subcategory = response.data;
+						vm.user = vm.current;
+					}
 				}
-				else {
-					vm.subcategory = response.data;
-					vm.user = vm.current;
-				}
-			}
-		});
+			});
+		}
 	}
 
 	deleteSubCategory() {
 		let vm = this;
 		let { DataServices } = vm.DI();
-		DataServices.deleteSubCategory(vm.subcategory.id).then(function (response) {
-			if (response.status === 200) {
-				angular.forEach(vm.subcategories, function (item, $index) {
-					if (item.id === vm.subcategory.id) {
-						vm.subcategories.splice($index, 1);
-					}
-				});
-				alert("deleted");
-			}
-		});
+		if (confirm("Are you sure want to delete?")) {
+			DataServices.deleteSubCategory(vm.subcategory.id).then(function (response) {
+				if (response.status === 200) {
+					angular.forEach(vm.subcategories, function (item, $index) {
+						if (item.id === vm.subcategory.id) {
+							vm.subcategories.splice($index, 1);
+						}
+					});
+					alert("deleted");
+				}
+			});
+		}
 	}
 
 
@@ -153,34 +165,40 @@ export class AdminController {
 
 	saveService() {
 		let vm = this;
-		let { DataServices } = vm.DI();
-		DataServices.saveService(vm.service).then(function (response) {
-			if (response.status === 200) {
-				alert("success");
-				if (vm.selected === '') {
-					vm.service = {};
+		let { DataServices, $scope } = vm.DI();
+		if ($scope.flag) {
+			$scope.flag = false;
+			DataServices.saveService(vm.service).then(function (response) {
+				$scope.flag = true;
+				if (response.status === 200) {
+					alert("success");
+					if (vm.selected === '') {
+						vm.service = {};
+					}
+					else {
+						vm.service = response.data;
+						vm.user = vm.current;
+					}
 				}
-				else {
-					vm.service = response.data;
-					vm.user = vm.current;
-				}
-			}
-		});
+			});
+		}
 	}
 
 	deleteService() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		DataServices.deleteService(vm.service.id).then(function (response) {
-			if (response.status === 200) {
-				angular.forEach(vm.services, function (item, $index) {
-					if (item.id === vm.service.id) {
-						vm.services.splice($index, 1);
-					}
-				});
-				alert("deleted");
-			}
-		});
+		if (confirm("Are you sure want to delete?")) {
+			DataServices.deleteService(vm.service.id).then(function (response) {
+				if (response.status === 200) {
+					angular.forEach(vm.services, function (item, $index) {
+						if (item.id === vm.service.id) {
+							vm.services.splice($index, 1);
+						}
+					});
+					alert("deleted");
+				}
+			});
+		}
 	}
 
 	getAreas() {
@@ -201,34 +219,40 @@ export class AdminController {
 
 	saveArea() {
 		let vm = this;
-		let { DataServices, $q } = vm.DI();
-		DataServices.saveArea(vm.area).then(function (response) {
-			if (response.status === 200) {
-				alert("success");
-				if (vm.selected === '') {
-					vm.area = {};
+		let { DataServices, $q, $scope } = vm.DI();
+		if ($scope.flag) {
+			$scope.flag = false;
+			DataServices.saveArea(vm.area).then(function (response) {
+				$scope.flag = true;
+				if (response.status === 200) {
+					alert("success");
+					if (vm.selected === '') {
+						vm.area = {};
+					}
+					else {
+						vm.area = response.data;
+						vm.user = vm.current;
+					}
 				}
-				else {
-					vm.area = response.data;
-					vm.user = vm.current;
-				}
-			}
-		});
+			});
+		}
 	}
 
 	deleteArea() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		DataServices.deleteArea(vm.area.id).then(function (response) {
-			if (response.status === 200) {
-				angular.forEach(vm.areas, function (item, $index) {
-					if (item.id === vm.area.id) {
-						vm.areas.splice($index, 1);
-					}
-				});
-				alert("deleted");
-			}
-		});
+		if (confirm("Are you sure want to delete?")) {
+			DataServices.deleteArea(vm.area.id).then(function (response) {
+				if (response.status === 200) {
+					angular.forEach(vm.areas, function (item, $index) {
+						if (item.id === vm.area.id) {
+							vm.areas.splice($index, 1);
+						}
+					});
+					alert("deleted");
+				}
+			});
+		}
 	}
 
 
@@ -251,7 +275,8 @@ export class AdminController {
 
 	saveVendor() {
 		let vm = this;
-		let { DataServices, $state } = vm.DI();
+		let { DataServices, $state, $scope } = vm.DI();
+
 		angular.forEach(vm.categories, function (item, $index) {
 			if (vm.vendor.category.id === item.id) {
 				vm.vendor.category = item;
@@ -269,29 +294,36 @@ export class AdminController {
 				vm.vendor.classRange = item;
 			}
 		});
-		DataServices.saveVendor(vm.vendor).then(function (response) {
-			if (response.status === 200) {
-				alert("success");
-				vm.vendor = response.data;
-				vm.user = vm.current;
-				$state.go("admin", { index: 2, selected: vm.vendor.id });
-			}
-		});
+
+		if ($scope.flag) {
+			$scope.flag = false;
+			DataServices.saveVendor(vm.vendor).then(function (response) {
+				$scope.flag = true;
+				if (response.status === 200) {
+					alert("success");
+					vm.vendor = response.data;
+					vm.user = vm.current;
+					$state.go("admin", { index: 2, selected: vm.vendor.id });
+				}
+			});
+		}
 	}
 
 	deleteVendor() {
 		let vm = this;
 		let { DataServices, $q } = vm.DI();
-		DataServices.deleteVendor(vm.vendor.id).then(function (response) {
-			if (response.status === 200) {
-				angular.forEach(vm.vendors, function (item, $index) {
-					if (item.id === vm.vendor.id) {
-						vm.vendors.splice($index, 1);
-					}
-				});
-				alert("deleted");
-			}
-		});
+		if (confirm("Are you sure want to delete?")) {
+			DataServices.deleteVendor(vm.vendor.id).then(function (response) {
+				if (response.status === 200) {
+					angular.forEach(vm.vendors, function (item, $index) {
+						if (item.id === vm.vendor.id) {
+							vm.vendors.splice($index, 1);
+						}
+					});
+					alert("deleted");
+				}
+			});
+		}
 	}
 
 	getAddress() {
