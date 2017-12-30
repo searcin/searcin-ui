@@ -9,13 +9,9 @@ export class FileUploadController {
             url: vm.apiUrl,
             headers: {Authorization:AuthConfig.USER.get().token}
         });
-        
         $scope.$watch(() => vm.apiUrl, function (nv, ov) {
             $scope.uploader.url = nv;
         });
-
-
-        // FILTERS
 
         // a sync filter
         uploader.filters.push({
@@ -44,7 +40,7 @@ export class FileUploadController {
                     uploader.queue.splice($index,1);
                 }
             });
-            //uploader.queue = [];
+            uploader.queue = [];
             //angular.element(document.getElementsByClassName("progress-bar")[0]).width = 0;
             uploader.progress = 0;
             angular.element(document.getElementById("input-file")).val("");
@@ -53,11 +49,15 @@ export class FileUploadController {
         uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
             console.info('onWhenAddingFileFailed', item, filter, options);
         };
-        uploader.onAfterAddingFile = function (fileItem) {
+        uploader.onAfterAddingFile = function (fileItem) {            
             console.info('onAfterAddingFile', fileItem);
         };
         uploader.onAfterAddingAll = function (addedFileItems) {
             console.info('onAfterAddingAll', addedFileItems);
+            if(uploader.queue.length > vm.size) {
+                alert("You can't upload more than "+vm.size+" number(s) of assets!");
+                uploader.clearQueue();
+            }
         };
         uploader.onBeforeUploadItem = function (item) {       
             console.info('onBeforeUploadItem', item);
@@ -83,15 +83,14 @@ export class FileUploadController {
         uploader.onCompleteItem = function (fileItem, response, status, headers) {
             //console.info('onCompleteItem', fileItem, response, status, headers);
             if(status === 200) {
-                vm.onComplete();
+                //vm.onComplete();
             }
         };
         uploader.onCompleteAll = function (fileItem, response, status, headers) {
-            //vm.onSuccessUpload();
-            alert("success");
             uploader.queue = [];
             uploader.progress = 0;
             angular.element(document.getElementById("input-file")).val("");
+            vm.onComplete();
         };
 
         //console.info('uploader', uploader);

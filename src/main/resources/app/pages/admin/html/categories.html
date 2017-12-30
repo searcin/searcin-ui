@@ -29,7 +29,7 @@
                                 <td>
                                     <button class="btn btn-primary btn-xs mr-10" ui-sref="admin({index:1,selected:item.id})"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></button>
 
-                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.category.id = item.id;admin.deleteCategory();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
+                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.category.id = item.id;admin.trashCategory();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -50,7 +50,7 @@
 
                 <form class="form mt-20" name="categories">
                     <label>Category Name:</label>
-                    <input type="text" class="form-control" ng-model="admin.category.name" /><br>
+                    <input type="text" class="form-control" ng-model="admin.category.name" autofocus><br>
 
                     <button class="btn btn-primary" type="submit" ng-disabled="!admin.category.name" ng-click="admin.saveCategory()">Save</button>
                 </form>
@@ -89,7 +89,7 @@
                                 <td>
                                     <button class="btn btn-primary btn-xs mr-10" ui-sref="admin({index:3,selected:admin.selected+','+item.id})"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></button>
 
-                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.subcategory.id = item.id;admin.deleteSubCategory();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
+                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.subcategory.id = item.id;admin.trashSubCategory();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -111,7 +111,7 @@
             <div class="col-sm-12">
                 <form class="form mt-20" name="categories">
                     <label>Sub Category Name:</label>
-                    <input type="text" class="form-control" ng-model="admin.subcategory.name" /><br>
+                    <input type="text" class="form-control" ng-model="admin.subcategory.name" autofocus><br>
                     <button class="btn btn-primary" type="submit" ng-disabled="!admin.subcategory.name" ng-click="admin.saveSubCategory()">Save</button>
                 </form>
             </div>

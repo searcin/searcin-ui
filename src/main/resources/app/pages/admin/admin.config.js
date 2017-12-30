@@ -12,5 +12,8 @@ export let AdminConfig = {
     }, {
         name: "Vendors",
         value: "vendors"
+    }, {
+        name: "Trash",
+        value: "trash"
     }]
 };

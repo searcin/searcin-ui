@@ -24,7 +24,7 @@
                                 <td>
                                     <button class="btn btn-primary btn-xs mr-10" ui-sref="admin({index:1,selected:item.id})"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></button>
 
-                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.service.id = item.id;admin.deleteService();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
+                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.service.id = item.id;admin.trashService();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -44,7 +44,7 @@
             <div class="col-sm-12">
                 <form class="form mt-20" name="services">
                     <label>Service Name:</label>
-                    <input type="text" class="form-control" ng-model="admin.service.name" /><br>
+                    <input type="text" class="form-control" ng-model="admin.service.name" autofocus/><br>
                     <textarea class="form-control" ng-model="admin.service.description"></textarea><br>
                     <button class="btn btn-primary" type="submit" ng-disabled="!admin.service.name" ng-click="admin.saveService()">Save</button>
                 </form>

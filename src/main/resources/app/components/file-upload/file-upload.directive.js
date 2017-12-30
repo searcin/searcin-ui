@@ -5,7 +5,8 @@ export
         templateUrl: 'components/file-upload/file-upload.html',
         scope: {
             apiUrl: '=',
-            onComplete: '&'
+            onComplete: '&',
+            size: '&'
         },
         controller: 'FileUploadController',
         controllerAs: 'fileupload',

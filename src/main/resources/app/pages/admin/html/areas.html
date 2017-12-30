@@ -23,7 +23,7 @@
                                 <td>
                                     <button class="btn btn-primary btn-xs mr-10" ui-sref="admin({index:1,selected:item.id})"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></button>
 
-                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.area.id = item.id;admin.deleteArea();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
+                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.area.id = item.id;admin.trashArea();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -43,7 +43,7 @@
             <div class="col-sm-12">
                 <form class="form mt-20" name="areas">
                     <label>Area Name:</label>
-                    <input type="text" class="form-control" ng-model="admin.area.name" /><br>
+                    <input type="text" class="form-control" ng-model="admin.area.name" autofocus/><br>
                     <button class="btn btn-primary" type="submit" ng-disabled="!admin.area.name" ng-click="admin.saveArea()">Save</button>
                 </form>
             </div>

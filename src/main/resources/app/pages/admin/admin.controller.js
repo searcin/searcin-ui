@@ -11,7 +11,6 @@ export class AdminController {
 			$state.go("home");
 
 		$scope.flag = true;
-		$scope.$emit("initAdminService");
 		vm.menu = AdminConstants.menu;
 		vm.active = $stateParams.page;
 		vm.index = parseInt($stateParams.index);
@@ -82,6 +81,23 @@ export class AdminController {
 		}
 	}
 
+	trashCategory() {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		if (confirm("Are you sure want to trash?")) {
+			DataServices.trashCategory(vm.category.id).then(function (response) {
+				if (response.status === 200) {
+					angular.forEach(vm.categories, function (item, $index) {
+						if (item.id === vm.category.id) {
+							vm.categories.splice($index, 1);
+						}
+					});
+					alert("trashed");
+				}
+			});
+		}
+	}
+
 
 	//sub categories
 
@@ -144,6 +160,23 @@ export class AdminController {
 		}
 	}
 
+	trashSubCategory() {
+		let vm = this;
+		let { DataServices } = vm.DI();
+		if (confirm("Are you sure want to trash?")) {
+			DataServices.trashSubCategory(vm.subcategory.id).then(function (response) {
+				if (response.status === 200) {
+					angular.forEach(vm.subcategories, function (item, $index) {
+						if (item.id === vm.subcategory.id) {
+							vm.subcategories.splice($index, 1);
+						}
+					});
+					alert("trashed");
+				}
+			});
+		}
+	}
+
 
 	//services
 
@@ -196,6 +229,23 @@ export class AdminController {
 						}
 					});
 					alert("deleted");
+				}
+			});
+		}
+	}
+
+	trashService() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		if (confirm("Are you sure want to trash?")) {
+			DataServices.trashService(vm.service.id).then(function (response) {
+				if (response.status === 200) {
+					angular.forEach(vm.services, function (item, $index) {
+						if (item.id === vm.service.id) {
+							vm.services.splice($index, 1);
+						}
+					});
+					alert("trashed");
 				}
 			});
 		}
@@ -255,6 +305,23 @@ export class AdminController {
 		}
 	}
 
+	trashArea() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		if (confirm("Are you sure want to trash?")) {
+			DataServices.trashArea(vm.area.id).then(function (response) {
+				if (response.status === 200) {
+					angular.forEach(vm.areas, function (item, $index) {
+						if (item.id === vm.area.id) {
+							vm.areas.splice($index, 1);
+						}
+					});
+					alert("trashed");
+				}
+			});
+		}
+	}
+
 
 	getVendors() {
 
@@ -270,6 +337,9 @@ export class AdminController {
 		let { DataServices, $q } = vm.DI();
 		DataServices.getVendor(vm.vendor.id).then(function (response) {
 			vm.vendor = response.data;
+
+			vm.category = vm.vendor.category;
+			vm.getSubCategories();
 		});
 	}
 
@@ -289,7 +359,7 @@ export class AdminController {
 			}
 		});
 
-		angular.forEach(vm.classRanges, function (item, $index) {
+		angular.forEach(vm.classranges, function (item, $index) {
 			if (vm.vendor.classRange.id === item.id) {
 				vm.vendor.classRange = item;
 			}
@@ -304,6 +374,23 @@ export class AdminController {
 					vm.vendor = response.data;
 					vm.user = vm.current;
 					$state.go("admin", { index: 2, selected: vm.vendor.id });
+				}
+			});
+		}
+	}
+
+	trashVendor() {
+		let vm = this;
+		let { DataServices, $q } = vm.DI();
+		if (confirm("Are you sure want to trash?")) {
+			DataServices.trashVendor(vm.vendor.id).then(function (response) {
+				if (response.status === 200) {
+					angular.forEach(vm.vendors, function (item, $index) {
+						if (item.id === vm.vendor.id) {
+							vm.vendors.splice($index, 1);
+						}
+					});
+					alert("trashed");
 				}
 			});
 		}
@@ -490,11 +577,13 @@ export class AdminController {
 	getLogo() {
 		let vm = this;
 		let { DataServices, CommonService } = vm.DI();
-		vm.logo = {};
-		vm.logo.host = CommonService.info.assetsHost;
+		vm.asset = {};
 		DataServices.getLogo(vm.vendor.id).then(function (response) {
 			if (response.status === 200) {
-				vm.logo.images = response.data;
+				vm.asset.logo = response.data;
+			}
+			else if (response.status === 204) {
+				vm.asset.logo = null;
 			}
 		});
 	}
@@ -505,13 +594,13 @@ export class AdminController {
 		vm.logoUrl = ApiConfig.BASEURL + ApiConfig.WEBURL + ApiConfig.UPLOAD_LOGO.replace("%id%", vm.vendor.id);
 	}
 
-	deleteLogo(key) {
+	deleteAsset(id) {
 		let vm = this;
-		let { DataServices } = vm.DI();
-		DataServices.deleteLogo(vm.vendor.id, key).then(function (response) {
+		let { DataServices, $state } = vm.DI();
+		DataServices.deleteAsset(vm.vendor.id, id).then(function (response) {
 			if (response.status === 200) {
 				alert("deleted");
-				vm.getLogo();
+				$state.reload();
 			}
 		});
 	}
@@ -535,6 +624,7 @@ export class AdminController {
 		DataServices.getGallery(vm.vendor.id).then(function (response) {
 			if (response.status === 200) {
 				vm.gallery.images = response.data;
+				vm.size = 5 - vm.gallery.images.length;
 			}
 		});
 	}
@@ -569,4 +659,95 @@ export class AdminController {
 			alert("Your browser didn't support geolocation!");
 		}
 	}
+
+	getTrash() {
+		let vm = this;
+		let { $scope, DataServices } = vm.DI();
+		DataServices.getTrash(vm.page, 10).then(function (response) {
+			vm.trash = response.data;
+		});
+	}
+
+	restore(item) {
+		let vm = this;
+		let { $scope, DataServices, $state } = vm.DI();
+		if (confirm("Are you sure want to restore the item?")) {
+			switch (item.type) {
+				case "CATEGORIES":
+					DataServices.restoreCategory(item.id).then(function () {
+						alert("restored");
+						$state.reload();
+					});
+					break;
+				case "SUBCATEGORIES":
+					DataServices.restoreSubCategory(item.id).then(function () {
+						alert("restored");
+						$state.reload();
+					});
+					break;
+				case "SERVICES":
+					DataServices.restoreService(item.id).then(function () {
+						alert("restored");
+						$state.reload();
+					});
+					break;
+				case "AREAS":
+					DataServices.restoreArea(item.id).then(function () {
+						alert("restored");
+						$state.reload();
+					});
+					break;
+				case "VENDORS":
+					DataServices.restoreVendor(item.id).then(function () {
+						alert("restored");
+						$state.reload();
+					});
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	delete(item) {
+		let vm = this;
+		let { $scope, DataServices, $state } = vm.DI();
+		if (confirm("Are you sure want to delete the item?")) {
+			switch (item.type) {
+				case "CATEGORIES":
+					DataServices.deleteCategory(item.id).then(function () {
+						alert("delete");
+						$state.reload();
+					});
+					break;
+				case "SUBCATEGORIES":
+					DataServices.deleteSubCategory(item.id).then(function () {
+						alert("deleted");
+						$state.reload();
+					});
+					break;
+				case "SERVICES":
+					DataServices.deleteService(item.id).then(function () {
+						alert("deleted");
+						$state.reload();
+					});
+					break;
+				case "AREAS":
+					DataServices.deleteArea(item.id).then(function () {
+						alert("deleted");
+						$state.reload();
+					});
+					break;
+				case "VENDORS":
+					DataServices.deleteVendor(item.id).then(function () {
+						alert("deleted");
+						$state.reload();
+					});
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	
 }

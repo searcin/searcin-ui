@@ -1,0 +1,42 @@
+<div class="areas details" ng-init="admin.page = 0">
+    <div ng-if="admin.index === 0" ng-init="admin.getTrash()">
+        <div class="row mt-20">
+            <div class="col-sm-12">
+                <div class="mt-20 mb-20" ng-if="admin.trash.length === 0">
+                    <p style="text-align:center;">No items found!</p>
+                </div>
+                <div class="table-responsive" ng-if="admin.trash.length > 0">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Deleted on</th>
+                                <th>Deleted by</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in admin.trash">
+                                <td>{{$index+1}}</td>
+                                <td>{{item.name}} ({{item.type}})</td>
+                                <td>{{item.updatedOn | date:'MM/dd/yyyy h:mma'}}</td>
+                                <td>{{item.updatedBy}}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-xs mr-10" ng-click="admin.restore(item)" uib-tooltip="Restore item"><i class="glyphicon glyphicon-repeat" aria-hidden="true"></i></button>
+
+                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.delete(item);" uib-tooltip="Remove permanently"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pull-right">
+                    <button class="btn btn-primary btn-xs" ng-if="admin.page!=0" ng-click="admin.page--;admin.getTrash();">Previous</button>
+                    <button class="btn btn-primary btn-xs" ng-if="admin.trash.length > 10" ng-click="admin.page++;admin.getTrash();">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

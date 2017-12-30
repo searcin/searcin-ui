@@ -35,6 +35,14 @@ export function DataServices(HttpService, ApiConfig) {
             let url = ApiConfig.DELETE_CATEGORY.replace("%id%", id);
             return DI.HttpService.get(url);
         },
+        trashCategory: function(id) {
+            let url = ApiConfig.TRASH_CATEGORY.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        restoreCategory: function(id) {
+            let url = ApiConfig.RESTORE_CATEGORY.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
         getSubCategories: function(id) {
             let url = ApiConfig.GET_SUB_CATEGORIES.replace("%id%",id);
             return DI.HttpService.get(url);
@@ -51,6 +59,14 @@ export function DataServices(HttpService, ApiConfig) {
             let url = ApiConfig.DELETE_SUB_CATEGORY.replace("%id%", id);
             return DI.HttpService.get(url);
         },
+        restoreSubCategory: function(id) {
+            let url = ApiConfig.RESTORE_SUB_CATEGORY.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        trashSubCategory: function(id) {
+            let url = ApiConfig.TRASH_SUB_CATEGORY.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
         getServices: function() {
             return DI.HttpService.get(ApiConfig.GET_SERVICES);
         },
@@ -65,6 +81,14 @@ export function DataServices(HttpService, ApiConfig) {
             let url = ApiConfig.DELETE_SERVICE.replace("%id%", id);
             return DI.HttpService.get(url);
         },
+        restoreService: function(id) {
+            let url = ApiConfig.RESTORE_SERVICE.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        trashService: function(id) {
+            let url = ApiConfig.TRASH_SERVICE.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
         getAreas: function() {
             return DI.HttpService.get(ApiConfig.GET_AREAS);
         },
@@ -77,6 +101,14 @@ export function DataServices(HttpService, ApiConfig) {
         },
         deleteArea: function(id) {
             let url = ApiConfig.DELETE_AREA.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        trashArea: function(id) {
+            let url = ApiConfig.TRASH_AREA.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        restoreArea: function(id) {
+            let url = ApiConfig.RESTORE_AREA.replace("%id%", id);
             return DI.HttpService.get(url);
         },
         saveVendor: function(payload) {
@@ -95,6 +127,14 @@ export function DataServices(HttpService, ApiConfig) {
         },
         deleteVendor: function(id) {
             let url = ApiConfig.DELETE_VENDOR.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        trashVendor: function(id) {
+            let url = ApiConfig.TRASH_VENDOR.replace("%id%", id);
+            return DI.HttpService.get(url);
+        },
+        restoreVendor: function(id) {
+            let url = ApiConfig.RESTORE_VENDOR.replace("%id%", id);
             return DI.HttpService.get(url);
         },
         getClassRange: function(id) {
@@ -142,8 +182,18 @@ export function DataServices(HttpService, ApiConfig) {
             url = url.replace("%key%", key);
             return DI.HttpService.get(url);
         },
-        suggest: function(key) {
-            let url = ApiConfig.SUGGEST.replace("%key%", key);
+        deleteAsset: function(id, key) {
+            let url = ApiConfig.DELETE_ASSET.replace("%id%", id);
+            url = url.replace("%key%", key);
+            return DI.HttpService.get(url);
+        },
+        // suggest: function(key) {
+        //     let url = ApiConfig.SUGGEST.replace("%key%", key);
+        //     return DI.HttpService.get(url);
+        // },
+        getTrash: function(index, size) {
+            let url = ApiConfig.TRASH.replace("%index%", index);
+            url = url.replace("%size%", size);
             return DI.HttpService.get(url);
         }
         // },

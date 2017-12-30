@@ -29,7 +29,7 @@
 
                                     <!-- <button class="btn btn-default btn-xs mr-10"><i class="glyphicon glyphicon-resize-full" aria-hidden="true"></i>&nbsp;&nbsp;Detail</button> -->
 
-                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.vendor.id=item.id;admin.deleteVendor();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
+                                    <button class="btn btn-danger btn-xs mr-10" ng-click="admin.vendor.id=item.id;admin.trashVendor();"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                             </tr>
@@ -45,7 +45,7 @@
                 <h4>
                     <button class="btn btn-danger btn-xs" type="button" ui-sref="admin({index:0, selected:''})"><i class="glyphicon glyphicon-home"></i></button>&nbsp;
                     <button class="btn btn-warning btn-xs" type="button" ui-sref="admin({index:0,selected:''})"><i class="glyphicon glyphicon-arrow-left"></i></button>&nbsp;
-                    <button class="btn btn-warning btn-xs" type="button" ui-sref="admin({index:2})" ng-if="admin.vendor.category" ng-init="admin.category=admin.vendor.category;admin.getSubCategories();"><i class="glyphicon glyphicon-arrow-right"></i></button>&nbsp;&nbsp;
+                    <button class="btn btn-warning btn-xs" type="button" ui-sref="admin({index:2})" ng-if="admin.vendor.id"><i class="glyphicon glyphicon-arrow-right"></i></button>&nbsp;&nbsp;
                     <span ng-if="admin.selected === ''" ng-init="admin.vendor = {};admin.vendor.services = [];">Add Vendor</span>
                     <span ng-if="admin.selected !== ''" ng-init="admin.vendor.id = admin.selected;admin.getVendor();">Update Vendor</span>
                 </h4>
@@ -58,6 +58,14 @@
             </div>
             <div class="col-sm-8">
                 <input type="text" ng-model="admin.vendor.name" class="form-control" />
+            </div>
+        </div>
+        <div class="row mt-20">
+            <div class="col-sm-4">
+                <label>Owner Name:</label>
+            </div>
+            <div class="col-sm-8">
+                <input type="text" ng-model="admin.vendor.ownerName" class="form-control" />
             </div>
         </div>
         <div class="row mt-20">
@@ -131,7 +139,7 @@
         </div>
         <div class="row mt-20" ng-if="admin.selected !== ''">
             <div class="col-sm-12">
-                <p class="mt-5" ng-if="admin.vendor.updatedOn && admin.vendor.updatedBy" ng-init="admin.user.username = admin.vendor.updatedBy;admin.getByUsername()">Last updated on <b>{{admin.vendor.updatedOn|date:'dd/MM/yyyy h:mma'}}</b> by <b>{{(admin.user.name === admin.current.name)?'You':admin.user.name;}}</b></p>
+                <p class="mt-5" ng-if="admin.vendor.updatedOn && admin.vendor.updatedBy">Last updated on <b>{{admin.vendor.updatedOn|date:'dd/MM/yyyy h:mma'}}</b> by <b>{{(admin.user.username === admin.vendor.updatedBy)?'You':admin.vendor.updatedBy;}}</b></p>
             </div>
         </div>
     </div>
@@ -251,14 +259,6 @@
         <hr>
         <div class="row mb-20">
             <div class="col-sm-4">
-                <label>Name:</label>
-            </div>
-            <div class="col-sm-8">
-                <input type="text" class="form-control" ng-model="admin.contact.name" />
-            </div>
-        </div>
-        <div class="row mb-20">
-            <div class="col-sm-4">
                 <label>Email:</label>
             </div>
             <div class="col-sm-8">
@@ -318,7 +318,7 @@
     </div>
     
     <div ng-if="admin.index === 4" ng-init="admin.vendor.id=admin.selected;admin.getLogo();">
-        <div ng-if="admin.logo.images.length === 0" ng-init="admin.setLogoUrl()">
+        <div ng-if="admin.asset.logo === null" ng-init="admin.setLogoUrl()">
 
             <div class="row mb-20">
                 <div class="col-sm-12">
@@ -331,9 +331,9 @@
                 </div>
             </div>
             <hr>
-            <file-upload api-url="admin.logoUrl" on-complete="admin.getLogo()"></file-upload>
+            <file-upload api-url="admin.logoUrl" on-complete="admin.getLogo()" size="1"></file-upload>
         </div>
-        <div ng-if="admin.logo.images.length > 0">
+        <div ng-if="admin.asset.logo">
             <div class="row mb-20">
                 <div class="col-sm-12">
                     <h4>
@@ -347,16 +347,21 @@
             <hr>
             <div class="row">
                 <div class="col-sm-12">
-                    <img ng-src="{{admin.logo.images[0].url}}" style="width:100px;"  uib-tooltip="Uploaded by {{admin.logo.images[0].updatedBy?admin.logo.images[0].updatedBy:'-'}} on {{admin.logo.images[0].updatedOn|date:'dd/MM/yyyy h:mma'}}"/>
+                    <img ng-src="{{admin.asset.logo.url}}" style="width:150px;"/>
+                </div>
+            </div>
+            <div class="row mt-20">
+                <div class="col-sm-12">
+                    <p>Uploaded by {{admin.asset.logo.url?admin.asset.logo.updatedBy:'-'}} on {{admin.asset.logo.updatedOn|date:'dd/MM/yyyy h:mma'}}</p>
                 </div>
             </div>
             <hr>
             <div class="row">
                 <div class="col-sm-12">
-                    <button class="btn btn-default btn-xs mr-10" ng-click="admin.openImage('Logo',admin.logo.images[0].url);">
+                    <button class="btn btn-default btn-xs mr-10" ng-click="admin.openImage('Logo',admin.asset.logo.url);">
                                 <i class="glyphicon glyphicon-resize-full"></i>
                             </button>
-                    <button class="btn btn-danger btn-xs" type="button" ng-click="admin.deleteGallery(admin.logo.images[0].key)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
+                    <button class="btn btn-danger btn-xs" type="button" ng-click="admin.deleteAsset(admin.asset.logo.id)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
                 </div>
             </div>
         </div>
@@ -374,8 +379,8 @@
                 </div>
             </div>
             <hr>
-            <div ng-if="admin.gallery.images.length < 5" ng-init="admin.setGalleryUrl()">
-            <file-upload api-url="admin.galleryUrl" on-complete="admin.getGallery()"></file-upload>
+            <div ng-if="admin.gallery.images&&admin.gallery.images.length < 5" ng-init="admin.setGalleryUrl()">
+            <file-upload api-url="admin.galleryUrl" on-complete="admin.getGallery()" size="5"></file-upload>
             <hr>
             </div>
         </div>
@@ -387,7 +392,7 @@
                         <button class="btn btn-default btn-xs mr-10" ng-click="admin.openImage('Gallery',item.url);" style="margin:0 0 0 10px;">
                                 <i class="glyphicon glyphicon-resize-full"></i>
                             </button>
-                        <button class="btn btn-danger btn-xs" type="button" ng-click="admin.deleteGallery(item.key)" style="margin:0 0 0 10px;"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
+                        <button class="btn btn-danger btn-xs" type="button" ng-click="admin.deleteAsset(item.id)" style="margin:0 0 0 10px;"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </div>
