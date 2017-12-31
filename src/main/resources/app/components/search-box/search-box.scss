@@ -1,15 +1,19 @@
-.search-box {    
+.search-box {
     position: relative;
     .search-text {
         input {
             outline: 0;
-            box-shadow: none;
+            box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 8px;
+            font-family: OpenSansSemiBold;
+            &:focus {
+                box-shadow: rgba(0, 0, 0, 0.4) 2px 2px 12px;
+            }
         }
         i {
             font-size: 22px;
             color: #ccc;
             right: 0;
-            margin: 10px 15px;            
+            margin: 10px 15px;
             position: absolute;
         }
     }
@@ -17,24 +21,72 @@
         width: 100%;
         max-height: 200px;
         overflow-x: hidden;
-        overflow-y: auto;        
-        background: #fff;        
-        border-radius: 0 0 4px 4px;        
-        box-shadow: 0px 0px 10px #ccc;        
+        overflow-y: auto;
+        background: #fff;
+        border-radius: 0 0 4px 4px;
+        box-shadow: 0px 0px 10px #ccc;
         border: #ccc solid 1px;
         position: absolute;
+        z-index: 10;
         ul {
             margin: 0;
             padding: 0;
             li {
                 list-style: none;
                 margin: 0;
-                padding: 7px 14px;
-                font-size: 15px;
+                padding: 0px;
+                cursor: pointer;
                 &:hover {
                     background: #f4f4f4;
                 }
-
+                .common-suggest {
+                    >label {
+                        font-family: OpenSansBold;
+                        font-size: 14px;
+                    }
+                    >small {
+                        font-size: 11px;
+                        color: #ccc;
+                    }
+                    >span {
+                        font-size: 12px
+                    }
+                    padding:5px 12px;
+                }
+                .vendor-suggest {
+                    width: 100%;
+                    padding: 5px 12px;
+                    //border-bottom: #f4f4f4 solid 1px;
+                    img {
+                        width: 100%;
+                    }
+                    h6 {
+                        font-size: 14px;
+                        margin: 0;
+                        padding: 0;
+                        font-family: OpenSansBold;
+                    }
+                    p {
+                        margin: 0;
+                        padding: 0;
+                        font-size: 12px;
+                        white-space: nowrap;
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                    .vendor-logo {
+                        width: 30px;
+                        display: inline-block;
+                        vertical-align: top;
+                    }
+                    .vendor-detail {
+                        width: calc(100% - 35px);
+                        display: inline-block;
+                        padding-left: 5px;
+                        vertical-align: top;
+                    }
+                }
             }
         }
     }

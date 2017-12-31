@@ -1,11 +1,29 @@
 <div class="search-box">
     <div class="search-text">
-        <input type="text" class="form-control input-lg" autofocus ng-change="search.change()" ng-model="search.value" ng-blur="search.focus = false;" ng-focus="search.focus = true"/>
+        <input type="text" class="form-control input-lg" autofocus ng-change="search.change()" ng-model="search.value" ng-blur="search.focus = false;"
+            ng-focus="search.focus = true" />
         <i class="glyphicon glyphicon-search"></i>
     </div>
     <div class="search-result" ng-if="search.data.length > 0 && search.value != '' && search.focus">
         <ul>
-            <li ng-repeat="item in search.data">{{item.name}}</li>
+            <li ng-repeat="item in search.data">
+                <div class="vendor-suggest" ng-if="item.type === 'vendors'">
+                    <div class="vendor-logo">
+                        <img ng-src="{{item.logo}}" ng-if="item.logo" />
+                        <img src="images/noimage.png" ng-if="item.logo === null" style="opacity:0.3"/>
+                    </div>
+                    <div class="vendor-detail">
+                        <h6>{{item.name}}</h6>
+                        <p>{{item.description}}</p>
+                    </div>
+                </div>
+                <div class="common-suggest" ng-if="item.type !== 'vendors'">
+                    <label>{{item.name}}</label>
+                    <small>&nbsp;&nbsp;in </small>
+                    <span>{{item.type.charAt(0).toUpperCase() + item.type.slice(1)}}</span>
+                </div>
+
+            </li>
         </ul>
     </div>
 </div>

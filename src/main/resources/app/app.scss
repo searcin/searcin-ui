@@ -19,69 +19,33 @@ body {
     .header {
         width: 100%;
         display: inline-block;
-        .menu {
-            > a {
-                > i{
-                    font-size: 20px;
-                    color: #555;
-                }
-            }
-        }
-        .profile-web {
+        .row-desktop {
             display: block;
+            .menu {
+                i {
+                    color: #000;
+                    font-size: 20px;
+                }
+            }
         }
-        .profile-mobile {
+        .row-mobile {
             display: none;
-        }
-        .profile {
-            width: 100%;
-
-            .profile-icon {
-                display: inline-block;
-                width: 30px;
-                vertical-align: middle;
-            }
-            .profile-menu {
-                display: inline-block;
-                width: calc(100% - 30px);
-                vertical-align: middle;
-                > a {
-                    color: #555;
-                    font-size: 12px;
-                    float: right;
-                    margin: 7px 15px 0 0;
-                }
-                > p {
-                    cursor: pointer;
-                    float: right;
-                    font-size: 12px;
-                    margin: 5px 0 0 0;
-                    i {
-                        font-size: 11px;
-                        margin: 5px;
-                    }
-                }
-                > ul {
-                    li {
-                        a {
-                            font-size: 12px;
-                            padding: 3px 10px;
-                        }
-                    }
+            .menu {
+                i {
+                    color: #000;
                 }
             }
         }
-    }    
+    }
 }
 
-
-@media only screen and (min-device-width: 359px) and (max-device-width: 667px){
+@media only screen and (min-device-width: 359px) and (max-device-width: 667px) {
     .app {
         .header {
-            .profile-web {
+            .row-desktop {
                 display: none;
             }
-            .profile-mobile {
+            .row-mobile {
                 display: block;
             }
         }

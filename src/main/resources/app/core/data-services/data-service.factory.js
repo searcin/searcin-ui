@@ -187,14 +187,17 @@ export function DataServices(HttpService, ApiConfig) {
             url = url.replace("%key%", key);
             return DI.HttpService.get(url);
         },
-        // suggest: function(key) {
-        //     let url = ApiConfig.SUGGEST.replace("%key%", key);
-        //     return DI.HttpService.get(url);
-        // },
+        suggest: function(key) {
+            let url = ApiConfig.SUGGEST.replace("%key%", key);
+            return DI.HttpService.get(url);
+        },
         getTrash: function(index, size) {
             let url = ApiConfig.TRASH.replace("%index%", index);
             url = url.replace("%size%", size);
             return DI.HttpService.get(url);
+        },
+        searchCategories: function() {
+            return DI.HttpService.get(ApiConfig.SEARCHCAT);
         }
         // },
         // deleteCategory: adminRequest.deleteCategory(DI),

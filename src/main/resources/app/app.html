@@ -1,46 +1,28 @@
 <div class="app">
     <div class="header">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row row-mobile mt-10">
+                <div class="col-xs-2">
+                    <div class="menu pull-left">
+                        <a href="#" ng-click="app.showSidePane = !app.showSidePane">
+                            <i class="glyphicon glyphicon-menu-hamburger"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-10">
+                    <user-profile></user-profile>
+                </div>
+            </div>
+            <div class="row row-desktop mt-15">
                 <div class="col-xs-6">
-                    <div class="menu mt-15 pull-left">
+                    <div class="menu pull-left">
                         <a href="#" ng-click="app.showSidePane = !app.showSidePane">
                             <i class="glyphicon glyphicon-menu-hamburger"></i>
                         </a>
                     </div>
                 </div>
                 <div class="col-xs-6">
-                    <div class="profile mt-15">
-                        <div class="profile-menu pull-left" ng-if="!app.user">
-                            <a href="#" ng-click="app.login()">Login</a>
-                        </div>
-                        <div class="profile-menu pull-left" uib-dropdown ng-if="app.user">
-                            <p uib-dropdown-toggle>{{app.user.name}}<i class="glyphicon glyphicon-triangle-bottom"></i></p>
-                            <ul class="dropdown-menu-right mt-15" uib-dropdown-menu aria-labelledby="simple-dropdown" ng-if="app.user">
-                                    <li ng-if="app.user.roles.indexOf('ROLE_ADMIN') !== -1">
-                                        <a href ui-sref="admin"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Admin</a>
-                                    </li>
-                                    <li>
-                                        <a href ng-click="app.logout()"><i class="glyphicon glyphicon-log-out"></i>&nbsp;&nbsp;Logout</a>
-                                    </li>
-                                </ul>
-                        </div>
-                        <div class="profile-icon pull-left">
-                                <img src="images/Contact-icon.png" width="30" />
-                        </div>
-                    </div>
-                    <div class="profile profile-mobile mt-15">
-                        <div class="profile-icon pull-right" uib-dropdown>
-                            <a href="#" uib-dropdown-toggle>
-                                <img src="images/Contact-icon.png" width="30" />
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right" uib-dropdown-menu aria-labelledby="simple-dropdown">
-                                <li>
-                                    <a href>Login</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <user-profile></user-profile>
                 </div>
             </div>
         </div>

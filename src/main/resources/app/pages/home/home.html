@@ -1,9 +1,4 @@
 <div class="home">
-    <!-- <div class="menu">
-        <button class="btn btn-default btn-lg" ng-click="home.showSidebar = !home.showSidebar;">
-            <i class="glyphicon glyphicon-menu-hamburger"></i>
-        </button>
-    </div> -->
     <div class="search">
         <div class="logo">
             <img src="images/searcin-logo.png" />
@@ -38,6 +33,25 @@
                 <div class="col-xs-12 mt-20" style="text-align:center;">
                     <button class="btn btn-primary " ui-sref="admin">Admin</button>
                     <button class="btn btn-danger " ng-click="home.showSidebar=false;home.logout();">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="categories container" ng-init="home.getCategories()">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>Search by Category</h1>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box" ng-repeat="item in home.categories | orderBy:'name'">
+                        <div class="box-wrap">
+                            <p>{{item.name}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

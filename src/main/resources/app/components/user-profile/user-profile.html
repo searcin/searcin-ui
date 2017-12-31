@@ -1,0 +1,24 @@
+<div class="profile">
+    <div class="profile-menu pull-left" ng-if="!user.user">
+        <a href="#" ng-click="user.login()">Login</a>
+    </div>
+    <div class="profile-menu pull-left" uib-dropdown ng-if="user.user">
+        <p uib-dropdown-toggle>{{user.user.name}}
+            <i class="glyphicon glyphicon-triangle-bottom"></i>
+        </p>
+        <ul class="dropdown-menu-right mt-5" uib-dropdown-menu aria-labelledby="simple-dropdown" ng-if="user.user">
+            <li ng-if="user.user.roles.indexOf('ROLE_ADMIN') !== -1">
+                <a href ui-sref="admin">
+                    <i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Admin</a>
+            </li>
+            <li>
+                <a href ng-click="user.logout()">
+                    <i class="glyphicon glyphicon-log-out"></i>&nbsp;&nbsp;Logout</a>
+            </li>
+        </ul>
+    </div>
+    <div class="profile-icon pull-left">
+        <img src="images/Contact-icon.png" width="30" />
+        <i class="glyphicon glyphicon-user pull-right"></i>
+    </div>
+</div>
